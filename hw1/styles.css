@@ -1,0 +1,113 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    background: #202124;
+}
+
+.meet__root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.meet__main {
+    display: flex;
+    flex: 1;
+}
+
+.anchored {
+    flex: 5;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#anchored_head {
+    height: 50px;
+}
+
+#anchored_main {
+    flex: auto;
+}
+
+#anchored_bottom {
+    height: 50px;
+    padding-left: 1em;
+    display: flex;
+    /* align-content: center; */
+}
+
+.side {
+    flex: 2;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 6em 0;
+}
+
+.attendee {
+    background-color: #3d4043;
+    width: 45%;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+#attendee_5 {
+    width: 65%;
+}
+
+.meet__footer {
+    height: 70px;
+    display: flex;
+}
+
+#footer_text {
+    flex: 1;
+    color: white;
+    margin-left: 1em;
+}
+
+#buttons {
+    flex: 1;
+}
+
+#info {
+    flex: 1;
+}
+
+.material-icons.md-light { 
+    color: rgba(255, 255, 255, 1);
+    padding: 13px 0;
+}
+
+#pin_text {
+    color: white;
+    flex: 1;
+    font-size: 14px;
+}
+
+
+
+.check_box {
+    display:none;
+}
+
+.check_box + label{
+    background:url('images/check-box.png') no-repeat;
+    height: 16px;
+    width: 16px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+}
+
+.check_box:checked + label{
+    background:url('images/check-box-checked.png') no-repeat;
+    height: 16px;
+    width: 16px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+}
