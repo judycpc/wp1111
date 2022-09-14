@@ -1,10 +1,12 @@
 * {
     box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 html, body {
     height: 100%;
     background: #202124;
+    margin: 0;
 }
 
 .meet__root {
@@ -27,10 +29,82 @@ html, body {
 
 #anchored_head {
     height: 50px;
+    color: white;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    padding-right: 1.5em;
 }
+
+.material-icons.md-18 { font-size: 18px; }
 
 #anchored_main {
     flex: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#profile_1 {
+    height: 22vh;
+    width: 22vh;
+    background-color: #426729;
+    color: white;
+    font-size: 9vh;
+}
+
+.circle {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#profile_pill {
+    height: 6vh;
+    width: 17.5vh;
+    background-color: rgba(0, 0, 0, 0.28);
+    border-radius: 500px;
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#profile_pill * {
+    opacity: 0.7;
+}
+
+#push_pin_slash {
+    width: 20px;
+    margin-left: 4px;
+    height: 24px;
+    cursor: pointer;
+}
+
+#grid_slash {
+    cursor: pointer;
+}
+
+#close_fullscreen {
+    margin-right: 3px;
+    cursor: pointer;
+}
+
+#anchored_main #profile_pill {
+    visibility: hidden;
+}
+
+#anchored_main:hover #profile_pill {
+    visibility: visible;
+}
+
+#profile_pill:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#profile_pill:hover > #push_pin_slash, #profile_pill:hover > #grid_slash {
+    opacity: 1;
 }
 
 #anchored_bottom {
@@ -38,6 +112,11 @@ html, body {
     padding-left: 1em;
     display: flex;
     /* align-content: center; */
+}
+
+#push_pin {
+    width: 20px;
+    padding: 14px 0;
 }
 
 .side {
@@ -50,64 +129,238 @@ html, body {
 }
 
 .attendee {
+    color: white;
     background-color: #3d4043;
     width: 45%;
     border-radius: 10px;
     margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    justify-content: space-between;
+    height: 32%;
 }
 
 #attendee_5 {
     width: 65%;
 }
 
+.mic_bg {
+    background-color: #34373a;
+    width: 26px;
+    height: 26px;
+    align-self: flex-end;
+}
+
+.pic {
+    width: 4em;
+    height: 4em;
+    align-self: center;
+}
+
+.attendee > p {
+    margin: 0;
+    font-size: 13px;
+    margin-left: 4px;
+}
+
+#yl {
+    background-color: #4295a6;
+    width: 4rem;
+    height: 4rem;
+    align-self: center;
+    font-size: 2.2em;
+    font-weight: 400;
+}
+
+#yl > p {
+    margin: 0;
+    padding: 0;
+}
+
+#ty {
+    background-color: #b22e5b;
+    width: 5rem;
+    height: 5rem;
+    align-self: center;
+    font-size: 2.2em;
+    font-weight: 400;
+}
+
+#ty > p {
+    margin: 0;
+    padding: 0;
+}
+
 .meet__footer {
     height: 70px;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 #footer_text {
-    flex: 1;
+    /* flex: 1; */
     color: white;
     margin-left: 1em;
+    padding: 0;
 }
 
 #buttons {
-    flex: 1;
+    /* flex: 1; */
+    width: 400px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.button {
+    margin: 0 15px;
+}
+
+.button label {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #3d4043;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    z-index: 1;
+    color: white;
+    padding: 8px;
+}
+
+.button #label5 {
+    width: 56px;
+    border-radius: 500px;
+    padding: 8px 16px;
+    background: #d85140;
+}
+
+.button input[type="checkbox"] {
+    visibility: hidden;
+}
+
+.button input[type="checkbox"]:checked + label {
+    background: #d85140;
+}
+
+.button input[type="checkbox"]:checked + #label3, .button input[type="checkbox"]:checked + #label2 {
+    background: #8bb4f7;
+}
+
+.button input[type="checkbox"]:checked + #label4 {
+    background: #3d4043;
+}
+
+.button .checked_remind, .button .unchecked_remind {
+    position: absolute;
+    top: -42px;
+    left: -35px;
+    background-color: #3d4043;
+    font-size: 10px;
+    white-space: nowrap;
+    padding: 6px;
+    border-radius: 4px;
+    display: none;
+}
+
+#label4 p, #label5 p {
+    position: absolute;
+    top: -42px;
+    right: -10px;
+    background-color: #3d4043;
+    font-size: 10px;
+    white-space: nowrap;
+    padding: 6px;
+    border-radius: 4px;
+    display: none;
+}
+
+#label5 p {
+    right: 0;
+    left: -4px;
+}
+
+.button input[type="checkbox"]:checked + label:hover .checked_remind {
+    display: block;
+}
+
+.button input[type="checkbox"]:not(:checked) + label:hover .unchecked_remind {
+    display: block;
+}
+
+.button input[type="checkbox"] + #label4:hover p, .button input[type="checkbox"] + #label5:hover p {
+    display: block;
+}
+
+.button input[id="0"]:not(:checked) + label:hover, .button input[id="1"]:not(:checked) + label:hover {
+    background-color: #44474a;
+}
+
+.button input[type="checkbox"]:not(:checked) + #label2:hover, .button input[type="checkbox"]:not(:checked) + #label3:hover, .button input[type="checkbox"] + #label4:hover {
+    background-color: #44474a;
+}
+
+.button input[id="0"]:checked + label:hover, .button input[id="1"]:checked + label:hover, .button #label5:hover {
+    background-color: #ea4b3c;
+}
+
+.button input[type="checkbox"] + label .checked_icon {
+    display: none;
+}
+
+.button input[type="checkbox"] + label .unchecked_icon {
+    display: block;
+}
+
+.button input[type="checkbox"]:checked + label .checked_icon {
+    display: block;
+}
+
+.button input[type="checkbox"]:checked + label .unchecked_icon {
+    display: none;
+}
+
+.button input[type="checkbox"]:checked + #label2 span, .button input[type="checkbox"]:checked + #label3 span {
+    color: #3d4043;
 }
 
 #info {
-    flex: 1;
+    /* flex: 1; */
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    color: white;
+    padding-right: 2em;
 }
 
-.material-icons.md-light { 
-    color: rgba(255, 255, 255, 1);
-    padding: 13px 0;
+#info > * {
+    padding-left: 22px;
+    cursor: pointer;
+}
+
+#people {
+    position: relative;
+}
+
+#people .circle {
+    position: absolute;
+    top: -15px;
+    right: -8px;
+    width: 18px;
+    height: 18px;
+    background-color: #606367;
+    text-align: center;
+    font-size: 8px;
+    font-family: "Rubik", Arial, Helvetica, sans-serif
 }
 
 #pin_text {
     color: white;
     flex: 1;
     font-size: 14px;
-}
-
-
-
-.check_box {
-    display:none;
-}
-
-.check_box + label{
-    background:url('images/check-box.png') no-repeat;
-    height: 16px;
-    width: 16px;
-    display:inline-block;
-    padding: 0 0 0 0px;
-}
-
-.check_box:checked + label{
-    background:url('images/check-box-checked.png') no-repeat;
-    height: 16px;
-    width: 16px;
-    display:inline-block;
-    padding: 0 0 0 0px;
 }
