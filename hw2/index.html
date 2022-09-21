@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet - Web Programming</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik">
+</head>
+<body>
+<div id="root" class="meet__root">
+    <section class="meet__main">
+        <div class="anchored">
+            <div id="anchored_head">
+                <span class="material-icons md-18">mic_off</span>
+            </div>
+            <div id="anchored_main">
+                <div id="profile_1" class="circle">
+                    <p>鐘揚</p>
+                    <div id="profile_pill">
+                        <img id="push_pin_slash" src="./images/push-pin-slash.png" alt="push-pin-slash">
+                        <span id="grid_slash" class="material-icons">grid_off</span>
+                        <span id="close_fullscreen" class="material-icons">close_fullscreen</span>
+                    </div>
+                </div>
+            </div>
+            <div id="anchored_bottom">
+                <img id="push_pin" src="./images/push-pin.png" alt="push-pin">
+                <p id="pin_text">&emsp;你</p>
+            </div>
+        </div>
+        <div class="side" id="side">
+            <div class="attendee" id="attendee_1">
+                <div class="attendee_head">
+                    <div class="circle close_bg">
+                        <span class="material-icons md-18">close</span>
+                    </div>
+                    <div class="circle mic_bg">
+                        <span class="material-icons md-18">mic_off</span>
+                    </div>    
+                </div>
+                <img src="./images/bird.jpg" alt="bird" class="circle pic">
+                <p>李彥儒</p>
+            </div>
+            <div class="attendee" id="attendee_2">
+                <div class="attendee_head">
+                    <div class="circle close_bg">
+                        <span class="material-icons md-18">close</span>
+                    </div>
+                    <div class="circle mic_bg">
+                        <span class="material-icons md-18">mic_off</span>
+                    </div>    
+                </div>
+                <img src="./images/man1.jpg" alt="bird" class="circle pic">
+                <p>陳孟宏</p>
+            </div>
+            <div class="attendee" id="attendee_3">
+                <div class="attendee_head">
+                    <div class="circle close_bg">
+                        <span class="material-icons md-18">close</span>
+                    </div>
+                    <div class="circle mic_bg">
+                        <span class="material-icons md-18">mic_off</span>
+                    </div>    
+                </div>
+                <div class="circle" id="yl"><p>yl</p></div>
+                <p>yl h</p>
+            </div>
+            <div class="attendee" id="attendee_4">
+                <div class="attendee_head">
+                    <div class="circle close_bg">
+                        <span class="material-icons md-18">close</span>
+                    </div>
+                    <div class="circle mic_bg">
+                        <span class="material-icons md-18">mic_off</span>
+                    </div>    
+                </div>
+                <img src="./images/man2.jpg" alt="bird" class="circle pic">
+                <p>劉慕德 /Joshua Lau</p>
+            </div>
+            <div class="attendee" id="attendee_5">
+                <div class="attendee_head">
+                    <div class="circle close_bg">
+                        <span class="material-icons md-18">close</span>
+                    </div>
+                    <div class="circle mic_bg">
+                        <span class="material-icons md-18">mic_off</span>
+                    </div>    
+                </div>
+                <div class="circle" id="ty"><p>子瑜</p></div>
+                <p>童子瑜</p>
+            </div>
+        </div>
+    </section>
+    <footer id="footer" class="meet__footer">
+        <p id="footer_text">凌晨12:43&nbsp;&ensp;|&nbsp;&ensp;Web Programming</p>
+        <div id="buttons">
+            <div class="button">
+                <input id="0" type="checkbox" checked />
+                <label for="0">
+                    <p class="checked_remind">開啟麥克風 (⌘ + D)</p>
+                    <span class="material-icons checked_icon">mic_off</span>
+                    <p class="unchecked_remind">關閉麥克風 (⌘ + D)</p>
+                    <span class="material-icons unchecked_icon">mic</span>
+                </label>
+            </div>
+            <div class="button">
+                <input id="1" type="checkbox" checked />
+                <label for="1">       
+                    <p class="checked_remind">開啟攝影機 (⌘ + E)</p>
+                    <span class="material-icons-outlined checked_icon">videocam_off</span>
+                    <p class="unchecked_remind">關閉攝影機 (⌘ + E)</p>
+                    <span class="material-icons-outlined unchecked_icon">videocam</span>
+                </label>
+            </div>
+            <div class="button">
+                <input id="2" type="checkbox" />
+                <label id="label2" for="2">
+                    <p class="checked_remind">將手放下 (ctrl + ⌘ + h)</p>
+                    <span class="material-icons checked_icon">back_hand</span>
+                    <p class="unchecked_remind">舉手 (ctrl + ⌘ + h)</p>
+                    <span class="material-icons-outlined unchecked_icon">back_hand</span>
+                </label>
+            </div>
+            <div class="button">
+                <input id="3" type="checkbox">
+                <label id="label3" for="3">
+                    <p class="checked_remind">你正在分享螢幕畫面</p>
+                    <p class="unchecked_remind">立即分享螢幕畫面</p>
+                    <span class="material-icons-outlined">present_to_all</span>
+                </label>
+            </div>
+            <div class="button">
+                <input id="4" type="checkbox">
+                <label id="label4" for="4">
+                    <p>更多選項</p>
+                    <span class="material-icons">more_vert</span>
+                </label>
+            </div>
+            <div class="button">
+                <input id="5" type="checkbox">
+                <label id="label5" for="5">
+                    <p>退出通話</p>
+                    <span class="material-icons">call_end</span>
+                </label>
+            </div>
+        </div>
+        <div id="info">
+            <span class="material-icons">info_outline</span>
+            <div id="people">
+                <span class="material-icons-outlined">people_alt</span>
+                <div class="circle">6</div>
+            </div>
+            <span class="material-icons-outlined">chat</span>
+            <span class="material-icons-outlined">category</span>
+            <span class="material-icons-outlined">lock_person</span>
+        </div>
+    </footer>
+</div>
+<script src="main.js"></script>
+</body>
+</html>
