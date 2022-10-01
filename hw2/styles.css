@@ -95,9 +95,9 @@ body {
   /* cursor: pointer; */
 }
 
-#grid_slash {
-  /* cursor: pointer; */
-}
+/* #grid_slash {
+  cursor: pointer;
+} */
 
 #close_fullscreen {
   margin-right: 3px;
