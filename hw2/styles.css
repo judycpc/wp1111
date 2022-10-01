@@ -81,6 +81,7 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  cursor: pointer;
 }
 
 #profile_pill * {
@@ -91,16 +92,16 @@ body {
   width: 20px;
   margin-left: 4px;
   height: 24px;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 #grid_slash {
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 #close_fullscreen {
   margin-right: 3px;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 #anchored_main #profile_pill {
@@ -267,6 +268,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 0.5em;
 }
 
 #footer_text {
