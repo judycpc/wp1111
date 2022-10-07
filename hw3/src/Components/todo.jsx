@@ -1,6 +1,6 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 
-function Todo({idx, text, check, onChange}) {
+function Todo({idx, text, check, onChange, onClick}) {
     const textStyle = (check) => {
         if (check === true) {
             return {textDecoration: "line-through", opacity: 0.5};
@@ -21,7 +21,11 @@ function Todo({idx, text, check, onChange}) {
                 <label htmlFor={idx}></label>
             </div>
             <h1 className="todo-app__item-detail" style={textStyle(check)}>{text}</h1>
-            <img className="todo-app__item-x" src={require("../img/x.png")} />
+            <img
+                className="todo-app__item-x"
+                src={require("../img/x.png")}
+                onClick={() => onClick(idx)}
+            />
         </li>
     );
 }

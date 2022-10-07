@@ -175,6 +175,11 @@ input[type='checkbox'] {
     outline: none;
 }
 
+.todo-app__view-buttons .focus {
+    color: white;
+    background-color: rgba(99, 99, 99, 0.75);
+}
+
 .todo-app__clean {
     vertical-align: middle;
 }

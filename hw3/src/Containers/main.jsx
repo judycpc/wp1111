@@ -3,7 +3,16 @@ import Todo from '../Components/todo';
 
 class Main extends Component {
     render() { 
-        const { inputText, todos, onChange_text, onKeyPress, onChange_checkbox } = this.props;
+        const { inputText, todos, displayFilter, onChange_text, onKeyPress, onChange_checkbox, onClick_x } = this.props;
+
+        let todoList = undefined;
+        if (displayFilter === "All") {
+            todoList = todos;
+        } else if (displayFilter === "Active") {
+            todoList = todos.filter((t) => t.check === false);
+        } else {
+            todoList = todos.filter((t) => t.check === true);
+        }
 
         return (
             <section className='todo-app__main'>
@@ -16,13 +25,14 @@ class Main extends Component {
                 />
                 <ul id="todo-list" className="todo-app__list">
                     {
-                        todos.map((todo) => (
+                        todoList.map((todo) => (
                             <Todo
                                 key={todos.indexOf(todo)}
                                 idx={todos.indexOf(todo)}
                                 text={todo.text}
                                 check={todo.check}
                                 onChange={onChange_checkbox}
+                                onClick={onClick_x}
                             />
                         ))
                     }
