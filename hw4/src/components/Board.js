@@ -90,10 +90,14 @@ const Board = ({ boardSize, mineNum, backToHome }) => {
 
             if (newNonMinesCount === 0) {
                 setWin(true);
+                // alert('You win!');
+                // restartGame();
             }
         } else {
             setBoard(newBoard);
             setGameOver(true);
+            // alert('Game over!');
+            // restartGame();
         }
     };
 

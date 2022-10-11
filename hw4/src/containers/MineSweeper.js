@@ -17,18 +17,20 @@ const MineSweeper = () => {
     const [boardSize, setBoardSize] = useState(8);          // A integer variable to store the board size in the game. The default value is 8.
 
     // Basic TODO: Change `startGame` from false to true when this function is called
-    const startGameOnClick = () => {
-        setStartGame(true);
+    const startGameOnClick = (error) => {
+        if (!error) {
+            setStartGame(true);
+        }
     }
 
     // Advanced TODO: Change `mineNum` to the number you send by this function
     const mineNumOnChange = (value) => {
-        
+        setMineNum(value);
     }
 
     // Advanced TODO: Change `boardSize` to the number you send by this function
     const boardSizeOnChange = (value) => {
-        
+        setBoardSize(value);
     }
 
     // Advanced TODO: Change `startGame` from true to false when this function is called
