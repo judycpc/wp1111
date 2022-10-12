@@ -1,4 +1,11 @@
 # HW4 MineSweeper
+**基本要求功能與進階要求功能皆已實作完成，請執行以下指令以開啟專案**
+```
+npm install  
+npm start
+```
+額外功能：計時器改為 mm:ss 格式
+
 ![](https://i.imgur.com/pfsPBRR.png)
 ## [Demo Video](https://www.youtube.com/watch?v=mDx4bi-rA-Q)
 
