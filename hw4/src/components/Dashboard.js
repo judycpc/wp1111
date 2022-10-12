@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import "./css/Dashboard.css"
 let timeIntervalId;
 
-export default function Dashboard({ remainFlagNum, gameOver }) {
+export default function Dashboard({ remainFlagNum, gameOver, win }) {
   let [time, setTime] = useState(0);
   let [sTime, setSTime] = useState(0);
 
@@ -20,7 +20,7 @@ export default function Dashboard({ remainFlagNum, gameOver }) {
   {/* Useful Hint: Try to understand the difference between time and sTime. */ }
 
   useEffect(() => {
-    if (!gameOver) {
+    if (!gameOver && !win) {
       timeIntervalId = setInterval(() => {
         setTime(time => time + 1);
       }, 1000)
@@ -30,7 +30,7 @@ export default function Dashboard({ remainFlagNum, gameOver }) {
     }
 
     return () => clearInterval(timeIntervalId);
-  }, [gameOver]);
+  }, [gameOver, win]);
 
   useEffect(() => {
     let s = time % 60;
@@ -57,7 +57,7 @@ export default function Dashboard({ remainFlagNum, gameOver }) {
       <div id='dashBoard_col2' >
         <div className='dashBoard_col'>
           <p className='icon'>⏰</p>
-          {gameOver ? sTime : timeStr}
+          {(gameOver || win) ? sTime : timeStr}
         </div>
       </div>
     </div>

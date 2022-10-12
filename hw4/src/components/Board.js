@@ -120,6 +120,7 @@ const Board = ({ boardSize, mineNum, backToHome }) => {
                     <Dashboard
                         remainFlagNum={remainFlagNum}
                         gameOver={gameOver}
+                        win={win}
                     />
                     {board.map((r) => (
                         <div key={'row'+board.indexOf(r)} id={'row'+board.indexOf(r)} style={{display:'flex'}}>
