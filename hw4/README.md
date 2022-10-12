@@ -6,10 +6,6 @@ npm start
 ```
 額外功能：計時器改為 mm:ss 格式
 
-![](https://i.imgur.com/pfsPBRR.png)
-## [Demo Video](https://www.youtube.com/watch?v=mDx4bi-rA-Q)
-
-
 ## Structure
 ![](https://i.imgur.com/noioyH8.png)
 
