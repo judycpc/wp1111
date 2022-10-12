@@ -27,8 +27,6 @@ export const revealed = (newBoard, x, y, newNonMinesCount) => {
         
         if (_x >= 0 && _x < bs && _y >= 0 && _y < bs) {
           if (!newBoard[_x][_y].revealed && !newBoard[_x][_y].flagged && !newBoard[_x][_y].value !== '💣') {
-            newBoard[_x][_y].revealed = true;
-            newNonMinesCount--;
             ({ newBoard, newNonMinesCount } = revealed(newBoard, _x, _y, newNonMinesCount));
           }
         }
