@@ -33,6 +33,7 @@ const HomePage = ({ startGameOnClick, mineNumOnChange, boardSizeOnChange, mineNu
   const handleInputMineNum = (newVal) => {
     newVal = parseInt(newVal);
     setInputMineNum(newVal);
+    mineNumOnChange(newVal);
 
     if (newVal > inputBoardSize*inputBoardSize) {
       setError(true);
@@ -44,13 +45,13 @@ const HomePage = ({ startGameOnClick, mineNumOnChange, boardSizeOnChange, mineNu
       setControlNumStyle({color: "#0f0f4b"});
       setErrorStyle({color: "transparent"});
       setStartStyle({cursor: "pointer"});
-      mineNumOnChange(newVal);
     }
   }
 
   const handleInputBoardSize = (newVal) => {
     newVal = parseInt(newVal);
     setInputBoardSize(newVal);
+    boardSizeOnChange(parseInt(newVal));
 
     if (inputMineNum > newVal*newVal) {
       setError(true);
@@ -62,7 +63,6 @@ const HomePage = ({ startGameOnClick, mineNumOnChange, boardSizeOnChange, mineNu
       setControlNumStyle({color: "#0f0f4b"});
       setErrorStyle({color: "transparent"});
       setStartStyle({cursor: "pointer"});
-      boardSizeOnChange(parseInt(newVal));
     }
   }
 
