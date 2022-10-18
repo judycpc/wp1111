@@ -32,8 +32,12 @@ const Keyboard = ({ usedChars }) => {
             <div id='KBrow_1' key='KBrow_1' claassName='Keyboard-row'>
                 {firstRowLetters && firstRowLetters.map((letter) => {
                     const color = usedChars[letter.char]
+                    let cn = "Keyboard-char"
+                    if (color !== undefined) {
+                        cn = 'Keyboard-char ' + color
+                    }
                     return (
-                        <div id = {'char_' + letter.char} key={'char_' + letter.char} className={'Keyboard-char ' + color}>{letter.char}</div>
+                        <div id = {'char_' + letter.char} key={'char_' + letter.char} className={cn}>{letter.char}</div>
                     )
                 })}
             </div>
@@ -41,8 +45,12 @@ const Keyboard = ({ usedChars }) => {
             <div id='KBrow_2' key='KBrow_2' claassName='Keyboard-row'>
                 {secondRowLetters && secondRowLetters.map((letter) => {
                     const color = usedChars[letter.char]
+                    let cn = "Keyboard-char"
+                    if (color !== undefined) {
+                        cn = 'Keyboard-char ' + color
+                    }
                     return (
-                        <div id = {'char_' + letter.char} key={'char_' + letter.char} className={'Keyboard-char ' + color}>{letter.char}</div>
+                        <div id = {'char_' + letter.char} key={'char_' + letter.char} className={cn}>{letter.char}</div>
                     )
                 })}
             </div>
