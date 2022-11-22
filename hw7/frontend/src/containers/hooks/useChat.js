@@ -29,9 +29,7 @@ const ChatProvider = (props) => {
         const { type, payload } = JSON.parse(byteString.data);
         switch (type) {
             case 'CHAT': {
-                console.log('CHAT', payload)
                 setMessages(payload);
-                console.log('messages set')
                 break;
             }
             case 'MESSAGE': {

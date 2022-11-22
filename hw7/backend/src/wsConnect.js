@@ -22,7 +22,6 @@ const validateChatBox = async (name, participants) => {
         const bid = String(box._id);
         if (!user.chatBoxes.includes(bid)) {
             let newChatBoxes = [...user.chatBoxes, bid];
-            console.log(newChatBoxes)
             user.chatBoxes = newChatBoxes;
             await user.save();
         }
@@ -55,6 +54,12 @@ export default {
                 case 'CHAT': {
                     const { name, to } = payload;
                     const chatBoxName = makeName(name, to);
+
+                    if (ws.box !== "" && chatBoxes[ws.box]) chatBoxes[ws.box].delete(ws); // user(ws) was in another chatbox
+
+                    if (!chatBoxes[chatBoxName]) chatBoxes[chatBoxName] = new Set();
+                    chatBoxes[chatBoxName].add(ws);
+
                     ws.box = chatBoxName;
 
                     const nameId = await validateUser(name);
@@ -67,27 +72,14 @@ export default {
 
                     sendData({ type: 'CHAT', payload: messages }, ws);
 
-                    // // save payload to db
-                    // const message = new Message({ name, body });
-                    // try {
-                    //     await message.save();
-                    // } catch (e) {
-                    //     throw new Error('Message DB save error: ' + e);
-                    // }
-                    // // response to client
-                    // broadcastMessage(
-                    //     wss,
-                    //     ['output', [payload]],
-                    //     {
-                    //         type: 'success',
-                    //         msg: 'Message sent.'
-                    //     }
-                    // )
                     break;
                 }
                 case 'MESSAGE': {
                     const { name, to, body } = payload;
                     const chatBoxName = makeName(name, to);
+
+                    if (!chatBoxes[chatBoxName]) chatBoxes[chatBoxName] = new Set();
+                    chatBoxes[chatBoxName].add(ws);
 
                     let box = await ChatBoxModel.findOne({ chatBoxName });
                     let sender = await UserModel.findOne({ name });
@@ -98,8 +90,9 @@ export default {
                     box.messages = newMessages;
                     await box.save();
 
-                    console.log(await box.populate('messages'))
-                    // sendData({ type: 'MESSAGE', payload:  }, ws);
+                    Array.from(chatBoxes[chatBoxName]).map((client) => {
+                        sendData({ type: 'MESSAGE', payload: [{name, body}]}, client);
+                    });
 
                     // Message.deleteMany({}, () => {
                     //     broadcastMessage(

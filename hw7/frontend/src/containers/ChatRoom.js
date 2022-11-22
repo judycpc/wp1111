@@ -23,7 +23,8 @@ const ChatBoxWrapper = styled.div`
 `;
 
 const FootRef = styled.div`
-    height: 20px;
+    height: 40px;
+    padding: 20px;
 `;
 
 const ChatRoom = () => {
@@ -49,7 +50,6 @@ const ChatRoom = () => {
   const msgFooter = useRef(null);
 
   const displayChat = (chat) => {
-    console.log(chat.length === 0)
     return chat.length === 0 ? (
       <p style={{ color: '#ccc' }}>No chat...</p>
     ) : (
@@ -64,19 +64,17 @@ const ChatRoom = () => {
 
 //   const renderChat = (chat) => ();
 
-  const extractChat = (friend) => {
-    return displayChat(
-        messages.filter(({ name, body }) => ((name === friend) || (name === me)))
-    )
-  };
+  // const extractChat = (friend) => {
+  //   return displayChat(
+  //       messages.filter(({ name, body }) => ((name === friend) || (name === me)))
+  //   )
+  // };
 
   const createChatBox = (friend) => {
     if (chatBoxes.some(({key}) => key === friend )) {
         throw new Error(friend + "'s chat box has already opened.");
     }
-    // const chat = extractChat(friend) // console.log(chat)
     setChatBoxes([...chatBoxes, { label: friend, children: [], key: friend }]);
-    console.log('chatBoxes set')
     setMsgSent(true);
     return friend;
   };
@@ -96,15 +94,16 @@ const ChatRoom = () => {
   };
 
   const scrollToBottom = () => {
+    console.log(msgFooter)
     msgFooter.current?.scrollIntoView({
         behavior: 'smooth',
-        block: 'start'
+        block: 'end'
   })};
 
   useEffect(() => {
     scrollToBottom();
     setMsgSent(false);
-  }, [msgSent]);
+  }, [msgSent, messages]);
 
   return (
     <>
@@ -116,7 +115,6 @@ const ChatRoom = () => {
         activeKey={activeKey}
         onChange={(key) => {
             setActiveKey(key);
-            // extractChat(key);
             startChat(me, key);
         }}
         onEdit={(targetKey, action) => {

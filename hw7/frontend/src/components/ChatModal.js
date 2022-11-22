@@ -19,6 +19,7 @@ const ChatModal = ({ open, onCreate, onCancel }) => {
                         window.alert(e);
                     });
             }}
+            onCancel={onCancel}
         >
             <Form form={form} layout='vertical' name='form_in_modal'>
                 <Form.Item
