@@ -94,7 +94,6 @@ const ChatRoom = () => {
   };
 
   const scrollToBottom = () => {
-    console.log(msgFooter)
     msgFooter.current?.scrollIntoView({
         behavior: 'smooth',
         block: 'end'
@@ -143,20 +142,24 @@ const ChatRoom = () => {
         enterButton="Send"
         placeholder="Type a message here..."
         onSearch={msg => {
-          if (!msg) {
-            displayStatus({
-              type: 'error',
-              msg: 'Please enter a username and a message body.'
-            });
-            return;
-          } else if (activeKey === '') {
+          if (activeKey === '') {
             displayStatus({
               type: 'error',
               msg: 'Please add a chat box first.'
             });
             setMsg('');
             return;
+          } else if (!msg) {
+            displayStatus({
+              type: 'error',
+              msg: 'Please enter a message body.'
+            });
+            return;
           }
+          displayStatus({
+            type: 'success',
+            msg: 'Message sent.'
+          })
           sendMessage(me, activeKey, msg);
           setMsg('');
           setMsgSent(true);
