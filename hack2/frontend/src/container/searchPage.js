@@ -35,6 +35,8 @@ const SearchPage = () => {
     const navigate = useNavigate();
     const ToRestaurant = (id) => {
         // TODO Part III-1: navigate the user to restaurant page with the corresponding id
+        console.log('click')
+        navigate(`/restaurant/${id}`);
     }
     const getPrice = (price) => {
         let priceText = ""
@@ -49,7 +51,7 @@ const SearchPage = () => {
             {
                 restaurants.map(({id, img, name, price, distance, tag}) => (
                     // TODO Part I-2: search page front-end
-                    <div className='resBlock' id={id} key={id}>
+                    <div className='resBlock' id={id} key={id} onClick={() => ToRestaurant(id)}>
                         <div className='resImgContainer'>
                             <img className='resImg' src={img} />
                         </div>
