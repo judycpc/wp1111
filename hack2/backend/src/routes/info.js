@@ -38,9 +38,12 @@ exports.GetSearch = async (req, res) => {
         else if (!mealFilter) filter.tag = { "$in": typeFilter };
         else filter.tag = { "$in": [...mealFilter, ...typeFilter] };
     }
-    console.log(filter)
+    
+    let sort_ = {};
+    if (sortBy) sort_[sortBy] = 1;
+    console.log(sort_)
 
-    Info.find(filter).exec((err, data) => {
+    Info.find(filter).sort(sort_).exec((err, data) => {
         if (err) {
             res.status(403).send({ message: 'error', contents: 'db find error' })
         } else {
