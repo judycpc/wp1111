@@ -43,7 +43,7 @@ exports.GetSearch = async (req, res) => {
     if (sortBy) sort_[sortBy] = 1;
     console.log(sort_)
 
-    Info.find(filter).sort(sort_).exec((err, data) => {
+    await Info.find(filter).sort(sort_).exec((err, data) => {
         if (err) {
             res.status(403).send({ message: 'error', contents: 'db find error' })
         } else {
@@ -60,6 +60,10 @@ exports.GetInfo = async (req, res) => {
     /*******    NOTE: DO NOT MODIFY   *******/
     const id = req.query.id
     /****************************************/
+
+    let data = await Info.findOne({id});
+    console.log(data);
+    res.json(data);
 
     // NOTE USE THE FOLLOWING FORMAT. Send type should be 
     // if success:
