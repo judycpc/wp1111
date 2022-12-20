@@ -47,6 +47,10 @@ const Mutation = {
       console.log(error); // Failure
     });
 
+    pubSub.publish("ITEM_DELETED", {
+      itemDeleted: item.id,
+    });
+
     return item.id;
   }
   // TODO 5.2 End
