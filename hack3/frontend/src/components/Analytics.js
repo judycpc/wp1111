@@ -11,14 +11,14 @@ function Analytics() {
     loading, error, data: itemsData, subscribeToMore,
   } = useQuery(GET_ITEMS_QUERY);
 
-  const { items } = itemsData;
-
   if (loading) return <p>Loading...</p>;
   if (error) {
     // eslint-disable-next-line no-console
     console.error(error);
     return (<p>Error :(</p>);
   }
+
+  const { items } = itemsData;
   // TODO 2.2 End
 
 
