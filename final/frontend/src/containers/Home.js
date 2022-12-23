@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Menu, theme, Col, Row, Cascader, Button, Tabs } from 'antd';
+import { Layout, Menu, theme, Col, Row, Cascader, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import options from '../assets/cascaderOptions';
-import TabContent from '../components/TabContent';
+import Tab from '../components/Tab';
+import SearchResult from '../components/SearchResult';
 
 const { Header, Footer, Content } = Layout;
 
@@ -28,6 +29,8 @@ const StyledCascader = styled(Cascader)`
 
 
 const Home = () => {
+  const [showSearch, setShowSearch] = useState(false);
+
   const { token: { colorBgContainer } } = theme.useToken();
 
   const onClick = (e) => {
@@ -53,7 +56,7 @@ const Home = () => {
           style={{ float: 'right' }}
         />
       </Header>
-      <Content style={{ padding: '0', minHeight: 'auto', }}>
+      <Content style={{ padding: '0', minHeight: 'auto', display: 'flex', flexDirection: 'column' }}>
         <Row>
           <Col span={24} style={{ backgroundColor: '#fff2df', minHeight: '160px' }}>
             <CascaderContainer>
@@ -71,25 +74,14 @@ const Home = () => {
                 icon={<SearchOutlined />}
                 size='large'
                 style={{ marginLeft: '8px', border: 'none', color: '#575757' }}
+                onClick={() => setShowSearch(!showSearch)}
               />
             </CascaderContainer>
           </Col>
         </Row>
-        <Row justify='center' style={{ backgroundColor: '#fff', padding: '60px' }}>
-          <Col span={20}>
-            <Tabs
-              size='large'
-              defaultActiveKey="1"
-              animated={false}
-              items={[
-                { label: <p style={{ fontSize: 20, margin: 0 }}>類別 A</p>, key: '1', children: <TabContent />, },
-                { label: <p style={{ fontSize: 20, margin: 0 }}>類別 B</p>, key: '2', children: <TabContent />, },
-                { label: <p style={{ fontSize: 20, margin: 0 }}>類別 C</p>, key: '3', children: <TabContent />, },
-                { label: <p style={{ fontSize: 20, margin: 0 }}>類別 D</p>, key: '4', children: <TabContent />, },
-              ]}
-            />
-          </Col>
-        </Row>
+        {
+          showSearch ? <SearchResult /> : <Tab />
+        }
       </Content>
       <Footer style={{ textAlign: 'center' }}> Created by Group 15 | NTU Web Programmimg 111-1 </Footer>
     </Layout>
