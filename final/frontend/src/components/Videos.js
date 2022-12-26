@@ -14,40 +14,40 @@ const Container = styled.div`
 `;
 
 const data = [
-    {
-        title: 'Ant Design Title 1',
-    },
-    {
-        title: 'Ant Design Title 2',
-    },
-    {
-        title: 'Ant Design Title 3',
-    },
-    {
-        title: 'Ant Design Title 4',
-    },
+  {
+    title: 'Ant Design Title 1',
+  },
+  {
+    title: 'Ant Design Title 2',
+  },
+  {
+    title: 'Ant Design Title 3',
+  },
+  {
+    title: 'Ant Design Title 4',
+  },
 ];
 
 const Videos = () => {
-    return (
-        <>
-            <Divider style={{ fontSize: 18 }}>推薦影片</Divider>
-            <List
-                itemLayout="horizontal"
-                dataSource={data}
-                renderItem={(item) => (
-                    <List.Item>
-                        <Container>
-                            <Title level={5} style={{ margin: 16, width: '80%' }}>{item.title}</Title>
-                            <div style={{ width: '90%', height: '60vh' }}>
-                                <ReactPlayer controls width='100%' height='100%' url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
-                            </div>
-                        </Container>
-                    </List.Item>
-                )}
-            />
-        </>
-    );
+  return (
+    <>
+      <Divider style={{ fontSize: 18 }}>推薦影片</Divider>
+      <List
+        itemLayout="horizontal"
+        dataSource={data}
+        renderItem={(item) => (
+          <List.Item>
+            <Container>
+              <Title level={5} style={{ margin: 16, width: '80%' }}>{item.title}</Title>
+              <div style={{ width: '90%', height: '60vh' }}>
+                <ReactPlayer controls width='100%' height='100%' url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+              </div>
+            </Container>
+          </List.Item>
+        )}
+      />
+    </>
+  );
 }
 
 export default Videos;

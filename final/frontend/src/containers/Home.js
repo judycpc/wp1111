@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Layout, Menu, theme, Col, Row, Cascader, Button } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Layout, Menu, theme, Col, Row, Cascader, Button, Dropdown, Space } from 'antd';
+import { SearchOutlined, DownOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import options from '../assets/cascaderOptions';
@@ -33,17 +34,39 @@ const Home = () => {
 
   const { token: { colorBgContainer } } = theme.useToken();
 
+  const navigate = useNavigate();
+  const toMenu = (key) => { navigate('/' + key) };
+
   const onClick = (e) => {
-    console.log('click', e.key);
+    // console.log('click', e.key);
+    toMenu(e.key);
   };
 
   const onChange = (value) => {
     console.log(value);
   };
 
+  const items = [
+    {
+      label: '帳戶資訊',
+      key: '0',
+    },
+    {
+      label: '預約紀錄',
+      key: '1',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: '登出',
+      key: '3',
+    },
+  ];
+
   return (
     <Layout className="layout" style={{ minHeight: "100vh" }}>
-      <Header style={{ background: colorBgContainer }}>
+      <Header style={{ background: colorBgContainer, display: 'flex', justifyContent: 'space-between' }}>
         <LogoContainer> logo </LogoContainer>
         <Menu
           theme='light'
@@ -53,8 +76,22 @@ const Home = () => {
             { key: 'signup', label: '註冊' },
             { key: 'login', label: '登入' }
           ]}
-          style={{ float: 'right' }}
         />
+        {/* <div style={{ height: '100%', fontSize: 14, padding: '0 16px' }}></div> */}
+        {/* <Dropdown
+          menu={{ items, }}
+          trigger={['click']}
+          overlayStyle={{ color: '#000000E0' }}
+        >
+          <a onClick={(e) => e.preventDefault()}>
+            <Space>
+              <Button>
+                你好，XXX
+                <DownOutlined />
+              </Button>
+            </Space>
+          </a>
+        </Dropdown> */}
       </Header>
       <Content style={{ padding: '0', minHeight: 'auto', display: 'flex', flexDirection: 'column' }}>
         <Row>
