@@ -21,7 +21,7 @@ const SideContainer = styled.div`
   align-items: flex-end;
 `;
 
-const SearchResult = () => {
+const Therapists = () => {
   return (
     <Row justify='center' style={{ backgroundColor: '#fff', padding: '60px', flex: 1 }}>
       <Col span={20}>
@@ -72,4 +72,4 @@ const SearchResult = () => {
   );
 };
 
-export default SearchResult;
+export default Therapists;

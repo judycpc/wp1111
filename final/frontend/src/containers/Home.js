@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import options from '../assets/cascaderOptions';
 import Tab from '../components/Tab';
-import SearchResult from '../components/SearchResult';
+import Therapists from '../components/Therapists';
 
 const { Header, Footer, Content } = Layout;
 
@@ -47,81 +47,70 @@ const Home = () => {
   };
 
   const items = [
-    {
-      label: '帳戶資訊',
-      key: '0',
-    },
-    {
-      label: '預約紀錄',
-      key: '1',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: '登出',
-      key: '3',
-    },
+    { label: '帳戶資訊', key: '0', },
+    { label: '預約紀錄', key: '1', },
+    { type: 'divider', },
+    { label: '登出', key: '3', },
   ];
 
   return (
-    <Layout className="layout" style={{ minHeight: "100vh" }}>
-      <Header style={{ background: colorBgContainer, display: 'flex', justifyContent: 'space-between' }}>
-        <LogoContainer> logo </LogoContainer>
-        <Menu
-          theme='light'
-          mode='horizontal'
-          onClick={onClick}
-          items={[
-            { key: 'signup', label: '註冊' },
-            { key: 'login', label: '登入' }
-          ]}
-        />
-        {/* <div style={{ height: '100%', fontSize: 14, padding: '0 16px' }}></div> */}
-        {/* <Dropdown
-          menu={{ items, }}
-          trigger={['click']}
-          overlayStyle={{ color: '#000000E0' }}
-        >
-          <a onClick={(e) => e.preventDefault()}>
-            <Space>
-              <Button>
-                你好，XXX
-                <DownOutlined />
-              </Button>
-            </Space>
-          </a>
-        </Dropdown> */}
-      </Header>
-      <Content style={{ padding: '0', minHeight: 'auto', display: 'flex', flexDirection: 'column' }}>
-        <Row>
-          <Col span={24} style={{ backgroundColor: '#fff2df', minHeight: '160px' }}>
-            <CascaderContainer>
-              <StyledCascader
-                multiple
-                size='large'
-                options={options}
-                bordered={false}
-                maxTagCount="responsive"
-                placeholder='您有什麼煩惱？'
-                onChange={onChange}
-              />
-              <Button
-                type="default"
-                icon={<SearchOutlined />}
-                size='large'
-                style={{ marginLeft: '8px', border: 'none', color: '#575757' }}
-                onClick={() => setShowSearch(!showSearch)}
-              />
-            </CascaderContainer>
-          </Col>
-        </Row>
-        {
-          showSearch ? <SearchResult /> : <Tab />
-        }
-      </Content>
-      <Footer style={{ textAlign: 'center' }}> Created by Group 15 | NTU Web Programmimg 111-1 </Footer>
-    </Layout>
+
+    // <Layout className="layout" style={{ minHeight: "100vh" }}>
+    //   <Header style={{ background: colorBgContainer, display: 'flex', justifyContent: 'space-between' }}>
+    //     <LogoContainer> logo </LogoContainer>
+    //     <Menu
+    //       theme='light'
+    //       mode='horizontal'
+    //       onClick={onClick}
+    //       items={[
+    //         { key: 'signup', label: '註冊' },
+    //         { key: 'login', label: '登入' }
+    //       ]}
+    //     />
+    //   <Dropdown 
+    //     menu={{ items, }}
+    //     trigger={['click']}
+    //     overlayStyle={{ color: '#000000E0' }}
+    //   >
+    //     <a onClick={(e) => e.preventDefault()}>
+    //       <Space>
+    //         <Button>
+    //           你好，XXX
+    //           <DownOutlined />
+    //         </Button>
+    //       </Space>
+    //     </a>
+    //   </Dropdown>*/}
+    // </Header>
+    <Content style={{ padding: '0', minHeight: 'auto', display: 'flex', flexDirection: 'column' }}>
+      <Row>
+        <Col span={24} style={{ backgroundColor: '#fff2df', minHeight: '160px' }}>
+          <CascaderContainer>
+            <StyledCascader
+              multiple
+              size='large'
+              options={options}
+              bordered={false}
+              maxTagCount="responsive"
+              placeholder='您有什麼煩惱？'
+              onChange={onChange}
+            />
+            <Button
+              type="default"
+              icon={<SearchOutlined />}
+              size='large'
+              style={{ marginLeft: '8px', border: 'none', color: '#575757' }}
+              onClick={() => setShowSearch(!showSearch)}
+            />
+          </CascaderContainer>
+        </Col>
+      </Row>
+      {
+        showSearch ? <Therapists /> : <Tab />
+      }
+    </Content>
+    //   <Footer style={{ textAlign: 'center' }}> Created by Group 15 | NTU Web Programmimg 111-1 </Footer>
+    // </Layout>
   );
 };
 

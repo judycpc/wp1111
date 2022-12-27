@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Layout, theme, Row, Col, Button, Form, Input, Tabs } from 'antd';
+import { Layout, Row, Col, Button, Form, Input, Tabs } from 'antd';
 import styled from 'styled-components';
 
-const { Header, Footer, Content } = Layout;
+const { Content } = Layout;
 
 const SignupContainer = styled.div`
 	width: 100%;
@@ -11,19 +11,11 @@ const SignupContainer = styled.div`
 	margin-top: 120px;
 `;
 
-const LogoContainer = styled.div`
-	height: 100%;
-	width: 150px;
-	margin: 0;
-	display: inline-block;
-	background-color: #d9d9d9;
-`
 
 const Signup = () => {
   const [identity, setIdentity] = useState('user');
 
   const [form] = Form.useForm();
-  const { token: { colorBgContainer } } = theme.useToken();
 
   const navigete = useNavigate();
   const ToHome = () => { navigete('/') };
@@ -119,41 +111,34 @@ const Signup = () => {
 
 
   return (
-    <Layout className="layout" style={{ minHeight: "100vh" }}>
-      <Header style={{ background: colorBgContainer, display: 'flex', justifyContent: 'space-between' }}>
-        <LogoContainer> logo </LogoContainer>
-      </Header>
-      <Content style={{ display: 'flex', padding: '0', minHeight: 'auto' }}>
-        <Row style={{ backgroundColor: '#fff', flex: 1 }}>
-          <Col span={24}>
-            <SignupContainer>
-              <Tabs
-                size='large'
-                centered={true}
-                defaultActiveKey="user"
-                animated={false}
-                onChange={(activeKey) => setIdentity(activeKey)}
-                items={[
-                  {
-                    label: <p style={{ fontSize: 20, margin: 0 }}>使用者</p>,
-                    key: 'user',
-                    children: SignupForm,
-                  },
-                  {
-                    label: <p style={{ fontSize: 20, margin: 0 }}>治療師</p>,
-                    key: 'therapist',
-                    children: SignupForm
-                  }
-                ]}
-              />
-            </SignupContainer>
-          </Col>
-        </Row>
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>
-        Created by Group 15 | NTU Web Programmimg 111-1
-      </Footer>
-    </Layout>
+    <Content style={{ display: 'flex', padding: '0', minHeight: 'auto' }}>
+      <Row style={{ backgroundColor: '#fff', flex: 1 }}>
+        <Col span={24}>
+          <SignupContainer>
+            <Tabs
+              size='large'
+              centered={true}
+              defaultActiveKey="user"
+              animated={false}
+              onChange={(activeKey) => setIdentity(activeKey)}
+              items={[
+                {
+                  label: <p style={{ fontSize: 20, margin: 0 }}>使用者</p>,
+                  key: 'user',
+                  children: SignupForm,
+                },
+                {
+                  label: <p style={{ fontSize: 20, margin: 0 }}>治療師</p>,
+                  key: 'therapist',
+                  children: SignupForm
+                }
+              ]}
+            />
+          </SignupContainer>
+        </Col>
+      </Row>
+    </Content>
+
   );
 };
 
