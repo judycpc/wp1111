@@ -4,7 +4,7 @@ import { StarFilled, ProfileFilled } from '@ant-design/icons';
 import styled from 'styled-components';
 
 const { Meta } = Card;
-const { Title, Paragraph, Text } = Typography;
+const { Title, Text } = Typography;
 
 const DescriptionContainer = styled.div`
   display: flex;

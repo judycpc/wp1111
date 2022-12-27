@@ -61,7 +61,6 @@ const Login = () => {
   )
 
   return (
-
     <Content style={{ display: 'flex', padding: '0', minHeight: 'auto' }}>
       <Row style={{ backgroundColor: '#fff', flex: 1 }}>
         <Col span={24}>

@@ -138,7 +138,6 @@ const Signup = () => {
         </Col>
       </Row>
     </Content>
-
   );
 };
 
