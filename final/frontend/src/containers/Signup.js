@@ -40,7 +40,7 @@ const Signup = () => {
       <Form.Item
         name="name"
         label="姓名"
-        tooltip="建議輸入真實姓名"
+        tooltip={identity === 'user' ? "諮商前需驗證您的健保卡資訊，請務必確實填寫您的真實姓名" : "請填寫真實姓名"}
         rules={[
           {
             required: true,

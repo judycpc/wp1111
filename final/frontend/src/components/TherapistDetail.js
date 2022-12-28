@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Layout, Row, Col, Avatar, Card, Typography, Table, Tag, Button, Rate } from "antd";
 import { RightOutlined } from "@ant-design/icons";
 
@@ -13,7 +13,7 @@ const TherapistDetail = () => {
 
   const columns = new Array(28).fill(null).map((_, i) => {
     let d = new Date();
-    d.setDate(d.getDate() + i);
+    d.setDate(d.getDate() + i + 1);
     const date = d.toLocaleDateString().slice(5);
     const day = zh_day[d.getDay()];
     return ({
@@ -49,6 +49,9 @@ const TherapistDetail = () => {
     }
   ]
 
+  const navigete = useNavigate();
+  const toAppointment = (id) => navigete('/appointment/' + id);
+
   return (
     <Content style={{ backgroundColor: '#fff' }}>
       <Row justify='center' style={{ marginTop: 80 }}>
@@ -82,6 +85,7 @@ const TherapistDetail = () => {
           </Card>
         </Col>
       </Row>
+
       <Row justify='center' style={{ marginTop: 20 }}>
         <Col span={20} style={{ padding: '10px 30px' }}>
           <Title
@@ -97,6 +101,7 @@ const TherapistDetail = () => {
           </ul>
         </Col>
       </Row>
+
       <Row justify='center' style={{ marginTop: 20 }}>
         <Col span={20} style={{ padding: '10px 30px' }}>
           <Title
@@ -114,11 +119,12 @@ const TherapistDetail = () => {
             style={{ margin: '20px' }}
           />
           <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <Button size="large" type="default">預約諮詢<RightOutlined /></Button>
+            <Button size="large" type="text" onClick={() => toAppointment(id)} style={{ backgroundColor: '#fff2df' }}>預約諮詢<RightOutlined /></Button>
 
           </div>
         </Col>
       </Row>
+
       <Row justify='center' style={{ margin: '20px 0 80px 0' }}>
         <Col span={20} style={{ padding: '10px 30px' }}>
           <Title
