@@ -7,6 +7,7 @@ import Login from "./Login";
 import Signup from "./Signup";
 import Tab from "../components/Tab";
 import Therapists from "../components/Therapists";
+import TherapistDetail from "../components/TherapistDetail";
 
 const { Header, Footer } = Layout;
 
@@ -72,6 +73,7 @@ const Root = () => {
         </Route>
         <Route path='login' element={<Login />} />
         <Route path='signup' element={<Signup />} />
+        <Route path='therapists/:id' element={<TherapistDetail />} />
       </Routes>
 
       <Footer style={{ textAlign: 'center' }}> Created by Group 15 | NTU Web Programmimg 111-1 </Footer>

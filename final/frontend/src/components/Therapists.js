@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Row, Col, Card, Avatar, Typography, Button } from 'antd';
 import { StarFilled, ProfileFilled } from '@ant-design/icons';
 import styled from 'styled-components';
@@ -22,6 +23,8 @@ const SideContainer = styled.div`
 `;
 
 const Therapists = () => {
+  const navigate = useNavigate();
+  const toDetail = (id) => { navigate('/therapists/' + id) };
   return (
     <Row justify='center' style={{ backgroundColor: '#fff', padding: '60px', flex: 1 }}>
       <Col span={20}>
@@ -61,7 +64,9 @@ const Therapists = () => {
               </Title>
               <Button
                 size='large'
-                type="primary" style={{ background: "#FFF2DF", boxShadow: 'none' }}
+                type="primary"
+                onClick={() => toDetail(0)}
+                style={{ background: "#FFF2DF", boxShadow: 'none' }}
               ><p style={{ margin: '0 20px', color: '#000000E0' }}>預約諮詢</p></Button>
             </SideContainer>
           </div>
