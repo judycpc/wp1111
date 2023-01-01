@@ -7,6 +7,8 @@ import Home from "./Home";
 import Login from "./Login";
 import Signup from "./Signup";
 import Appointment from "./Appointment";
+import Userinfo from "./Userinfo";
+import Bookings from "./Bookings";
 import TherapistProfile from "./TherapistProfile";
 import Tab from "../components/Tab";
 import Therapists from "../components/Therapists";
@@ -119,6 +121,8 @@ const Root = () => {
         <Route path='therapists/:id' element={<TherapistDetail />} />
         <Route path='appointment/:id' element={<Appointment />} />
         <Route path='therapists/profile/:id' element={<TherapistProfile />} />
+        <Route path='userinfo' element={<Userinfo />} />
+        <Route path='bookings' element={<Bookings />} />
       </Routes>
 
 
