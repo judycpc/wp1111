@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Layout, Row, Col, Button, Form, Input, Tabs } from 'antd';
 import styled from 'styled-components';
+import { signup } from '../api';
 
 const { Content } = Layout;
 
@@ -12,18 +13,28 @@ const SignupContainer = styled.div`
 `;
 
 
-const Signup = () => {
-  const [identity, setIdentity] = useState('user');
+const Signup = ({ success, warning, error }) => {
+  const [identity, setIdentity] = useState('client');
 
   const [form] = Form.useForm();
 
-  const navigete = useNavigate();
-  const ToHome = () => { navigete('/') };
+  const navigate = useNavigate();
+  const toHome = () => { navigate('/') }
+  const toLogin = () => { navigate('/login') };
 
-  const onFinish = (values) => {
-    console.log(identity)
-    console.log(values);
-    ToHome();
+  const onFinish = async (values) => {
+    const { message } = await signup({ ...values, identity });
+    console.log(message)
+    if (message === 'SUCCESS_ACCOUNT_CREATION') {
+      success('註冊成功');
+      toLogin();
+    } else if (message === 'ACCOUNT_EXIST') {
+      warning('此帳號已存在');
+      toHome();
+    } else {
+      error('發生錯誤');
+      toHome();
+    }
   };
 
   const formItemLayout = { labelCol: { span: 4, }, wrapperCol: { span: 16 } };
@@ -40,7 +51,7 @@ const Signup = () => {
       <Form.Item
         name="name"
         label="姓名"
-        tooltip={identity === 'user' ? "諮商前需驗證您的健保卡資訊，請務必確實填寫您的真實姓名" : "請填寫真實姓名"}
+        tooltip={identity === 'client' ? "諮商前需驗證您的健保卡資訊，請務必確實填寫您的真實姓名" : "請填寫真實姓名"}
         rules={[
           {
             required: true,
@@ -53,7 +64,7 @@ const Signup = () => {
       </Form.Item>
 
       <Form.Item
-        name="account"
+        name="username"
         label="帳號"
         rules={[{ required: true, message: '請輸入您的帳號' }]}
       >
@@ -118,13 +129,13 @@ const Signup = () => {
             <Tabs
               size='large'
               centered={true}
-              defaultActiveKey="user"
+              defaultActiveKey="client"
               animated={false}
               onChange={(activeKey) => setIdentity(activeKey)}
               items={[
                 {
                   label: <p style={{ fontSize: 20, margin: 0 }}>使用者</p>,
-                  key: 'user',
+                  key: 'client',
                   children: SignupForm,
                 },
                 {

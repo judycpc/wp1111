@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout, Col, Row, Cascader, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useNavigate, Outlet } from 'react-router-dom';
+import { getDisorders } from '../api';
 
-import options from '../assets/cascaderOptions';
 
 const { Content } = Layout;
 
@@ -18,7 +18,22 @@ const StyledCascader = styled(Cascader)`
   border-radius: 8px;
 `;
 
+
+
+
 const Home = () => {
+  const [options, setOptions] = useState([]);
+
+
+  useEffect(() => {
+    const initOptions = async () => {
+      let response = await getDisorders();
+      setOptions(response);
+    };
+
+    initOptions();
+  }, []);
+
 
   const onChange = (value) => {
     console.log(value);

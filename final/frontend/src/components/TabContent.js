@@ -4,11 +4,11 @@ import Videos from './Videos';
 
 
 
-const TabContent = () => {
+const TabContent = ({ disorder }) => {
     return (
         <>
             <br />
-            <TherapistCarousel />
+            <TherapistCarousel disorder={disorder} />
             <br />
             <Videos />
         </>

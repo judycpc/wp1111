@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Divider, Carousel, Card, Avatar } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { getTherapists } from '../api';
 import './carousel.css';
 
 const { Meta } = Card;
 
 
-const TherapistCarousel = () => {
+const TherapistCarousel = ({ disorder }) => {
+  const [therapists, setTherapists] = useState([]);
+
+  const navigate = useNavigate();
+  const toTherapist = (username, name, disorder_categories, avatar, introduction, available_time) => {
+    navigate('/therapists/' + username, { state: { name, disorder_categories, avatar, introduction, available_time } })
+  };
+
+  useEffect(() => {
+    const initTherapists = async () => {
+      let response = await getTherapists(disorder);
+      setTherapists(response);
+    };
+
+    initTherapists();
+  }, []);
+
   return (
     <>
       <Divider style={{ fontSize: 18 }}>治療師</Divider>
@@ -18,14 +36,16 @@ const TherapistCarousel = () => {
         nextArrow={<RightOutlined />}
       >
         {
-          new Array(16).fill(null).map((_, index) => (
-            <div key={index}><Card hoverable >
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Avatar size={128} src="https://img1.wsimg.com/isteam/ip/bc2e5cab-6169-4181-9e51-89df4fb88348/黃珮雯%20臨床心理師.jpg/:/cr=t:11.07%25,l:0%25,w:100%25,h:77.85%25/rs=w:365,h:365,cg:true" style={{ margin: '16px 0' }} />
-                <Meta description={<p style={{ color: 'black' }}>No.{index + 1} 治療師</p>} />
-              </div>
-            </Card></div>
-          ))
+          therapists.map(({ username, name, disorder_categories, avatar, introduction, available_time }) => {
+            return (
+              <div key={username}><Card hoverable onClick={() => toTherapist(username, name, disorder_categories, avatar, introduction, available_time)}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <Avatar size={128} src={avatar} style={{ margin: '16px 0' }} />
+                  <Meta description={<p style={{ color: 'black' }}>{name} 治療師</p>} />
+                </div>
+              </Card></div>
+            )
+          })
         }
       </Carousel>
     </>

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Layout, Row, Col, Button, Form, Input, Tabs } from 'antd';
+import { Layout, Row, Col, Button, Form, Input } from 'antd';
 import styled from 'styled-components';
+import { login } from '../api';
 
 const { Content } = Layout;
 
@@ -11,19 +12,29 @@ const LoginContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: 160px;
+	margin-top: 240px;
 `;
 
-const Login = () => {
-  const [identity, setIdentity] = useState('user');
-
+const Login = ({ error, setLoggedIn, setUsername, setName, setIdentity }) => {
   const navigete = useNavigate();
   const ToHome = () => { navigete('/') };
 
-  const onFinish = (values) => {
-    console.log(identity)
-    console.log(values);
-    ToHome();
+  const onFinish = async (values) => {
+    const { message, name, identity } = await login(values);
+    if (message === 'SUCCESS_LOGIN') {
+      setLoggedIn(true);
+      setUsername(values.username);
+      setName(name);
+      setIdentity(identity)
+      ToHome();
+    } else if (message === 'WRONG_PASSWORD') {
+      error('密碼錯誤');
+    } else if (message === 'ACCOUNT_DOESNT_EXIST') {
+      error('帳號不存在');
+    } else {
+      error('發生錯誤')
+    }
+
   };
 
   const LoginForm = (
@@ -65,25 +76,7 @@ const Login = () => {
       <Row style={{ backgroundColor: '#fff', flex: 1 }}>
         <Col span={24}>
           <LoginContainer>
-            <Tabs
-              size='large'
-              centered={true}
-              defaultActiveKey="user"
-              animated={false}
-              onChange={(activeKey) => setIdentity(activeKey)}
-              items={[
-                {
-                  label: <p style={{ fontSize: 20, margin: 0 }}>使用者</p>,
-                  key: 'user',
-                  children: LoginForm,
-                },
-                {
-                  label: <p style={{ fontSize: 20, margin: 0 }}>治療師</p>,
-                  key: 'therapist',
-                  children: LoginForm
-                }
-              ]}
-            />
+            {LoginForm}
           </LoginContainer>
         </Col>
       </Row>

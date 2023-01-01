@@ -1,5 +1,5 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { Layout, Row, Col, Avatar, Card, Typography, Table, Button, Rate } from "antd";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { Layout, Row, Col, Avatar, Card, Typography, Table, Button, Rate, Tag } from "antd";
 
 const { Content } = Layout;
 const { Meta } = Card;
@@ -7,8 +7,16 @@ const { Title, Text, Paragraph } = Typography;
 
 const zh_day = ['日', '一', '二', '三', '四', '五', '六'];
 
+const color = {
+  '人格': 'magenta', '壓力': 'red', '強迫': 'volcano', '思覺失調': 'orange', '憂鬱': 'gold',
+  '成癮': 'lime', '焦慮': 'green', '發展': 'cyan', '神經': 'blue', '躁鬱': 'geekblue',
+  '身體': 'purple', '醒覺': 'yellow', '飲食': 'pink'
+};
+
 const TherapistDetail = () => {
-  const { id } = useParams();
+  const { state: { name, disorder_categories, avatar, introduction, available_time } } = useLocation();
+
+  const { username } = useParams();
 
   const columns = new Array(7).fill(null).map((_, i) => {
     let d = new Date();
@@ -30,7 +38,7 @@ const TherapistDetail = () => {
               <Button
                 type="text"
                 disabled={!available}
-                onClick={() => toAppointment(id, date, day, time)}
+                onClick={() => toAppointment(username, date, day, time)}
                 style={{ margin: '5px 0', backgroundColor: (available ? '#d9f7be' : '#fff1f0') }}
               >{time}</Button>
             </div>
@@ -56,7 +64,7 @@ const TherapistDetail = () => {
   ];
 
   const navigete = useNavigate();
-  const toAppointment = (id, date, day, time) => navigete('/appointment/' + id, { replace: true, state: { date, day, time } });
+  const toAppointment = (username, date, day, time) => navigete('/appointment/' + username, { replace: true, state: { date, day, time } });
 
   return (
     <Content style={{ backgroundColor: '#fff' }}>
@@ -66,7 +74,7 @@ const TherapistDetail = () => {
             <Meta
               avatar={
                 <Avatar
-                  src="https://img1.wsimg.com/isteam/ip/bc2e5cab-6169-4181-9e51-89df4fb88348/黃珮雯%20臨床心理師.jpg/:/cr=t:11.07%25,l:0%25,w:100%25,h:77.85%25/rs=w:365,h:365,cg:true"
+                  src={avatar}
                   size={128}
                   style={{ margin: '10px 40px 10px 10px' }}
                 />
@@ -76,14 +84,14 @@ const TherapistDetail = () => {
                   level={3}
                   color='#000000E0'
                   style={{ margin: '10px 0 8px 0' }}
-                >XXX 治療師
+                >{name} 治療師
                 </Title>
               }
               description={
                 <>
-                  <Text color='#000000A0' style={{ fontSize: 18 }}>已完成 100 堂諮詢</Text>
+                  {disorder_categories.map(c => (<Tag key={c} color={color[c]} style={{ fontSize: 18, padding: '5px 10px' }}>{c}</Tag>))}
                   <Paragraph style={{ marginTop: 12, fontSize: 18, color: '#000000A0' }}>
-                    治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介
+                    {introduction}
                   </Paragraph>
                 </>
               }
