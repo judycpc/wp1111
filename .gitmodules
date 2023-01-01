@@ -1,0 +1,3 @@
+[submodule "final/backend"]
+	path = final/backend
+	url = https://github.com/hc-psy/wp-final-api.git
