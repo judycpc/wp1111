@@ -45,7 +45,7 @@ const Home = () => {
   return (
     <Content style={{ padding: '0', minHeight: 'auto', display: 'flex', flexDirection: 'column' }}>
       <Row>
-        <Col span={24} style={{ backgroundColor: '#fff2df', minHeight: '160px' }}>
+        <Col span={24} style={{ backgroundColor: '#FFE5D9', minHeight: '160px' }}>
           <CascaderContainer>
             <StyledCascader
               multiple

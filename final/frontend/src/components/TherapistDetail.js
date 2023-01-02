@@ -7,11 +7,6 @@ const { Title, Text, Paragraph } = Typography;
 
 const zh_day = ['日', '一', '二', '三', '四', '五', '六'];
 
-const color = {
-  '人格': 'magenta', '壓力': 'red', '強迫': 'volcano', '思覺失調': 'orange', '憂鬱': 'gold',
-  '成癮': 'lime', '焦慮': 'green', '發展': 'cyan', '神經': 'blue', '躁鬱': 'geekblue',
-  '身體': 'purple', '醒覺': 'yellow', '飲食': 'pink'
-};
 
 const TherapistDetail = () => {
   const { state: { name, disorder_categories, avatar, introduction, available_time } } = useLocation();
@@ -89,7 +84,7 @@ const TherapistDetail = () => {
               }
               description={
                 <>
-                  {disorder_categories.map(c => (<Tag key={c} color={color[c]} style={{ fontSize: 18, padding: '5px 10px' }}>{c}</Tag>))}
+                  {disorder_categories.map(c => (<Tag key={c} color="#ECE4DB" style={{ fontSize: 18, padding: '5px 10px', color: '#000000E0' }}>{c}</Tag>))}
                   <Paragraph style={{ marginTop: 12, fontSize: 18, color: '#000000A0' }}>
                     {introduction}
                   </Paragraph>
@@ -148,7 +143,7 @@ const TherapistDetail = () => {
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <Title level={4} color='#000000E0' style={{ margin: 0 }} >帳號名稱</Title>
                   <div style={{ marginLeft: 20 }}>
-                    <Rate disabled allowHalf defaultValue={4.5} />
+                    <Rate disabled allowHalf defaultValue={4.5} style={{ color: '#FEC89A' }} />
                     <span className="ant-rate-text" color="#000000E0">{4.5}</span>
                   </div>
                 </div>

@@ -113,7 +113,7 @@ const Signup = ({ success, warning, error }) => {
 
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <Form.Item >
-          <Button type="primary" htmlType="submit"> 註冊 </Button>
+          <Button type="text" htmlType="submit" style={{ backgroundColor: '#D8E2DC' }}> 註冊 </Button>
         </Form.Item>
       </div>
     </Form>

@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { Layout, theme, Menu, message, Dropdown, Space, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import styled from "styled-components";
@@ -13,7 +14,6 @@ import TherapistProfile from "./TherapistProfile";
 import Tab from "../components/Tab";
 import Therapists from "../components/Therapists";
 import TherapistDetail from "../components/TherapistDetail";
-import { useState } from "react";
 
 const { Header, Footer } = Layout;
 
@@ -25,16 +25,43 @@ const LogoContainer = styled.div`
   background-color: #d9d9d9;
 `;
 
+const clientItems = [
+  { label: '帳戶資訊', key: '0', },
+  { label: '預約紀錄', key: '1', },
+  { type: 'divider', },
+  { label: '登出', key: 'logout', },
+];
+
+const therapistItems = [
+  { label: '帳戶資訊', key: '0', },
+  { label: '預約紀錄', key: '1', },
+  { label: '個人主頁', key: 'profile', },
+  { type: 'divider', },
+  { label: '登出', key: 'logout', },
+]
+
 const Root = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState(undefined);
   const [name, setName] = useState(undefined);
   const [identity, setIdentity] = useState(undefined);
+  const [items, setItems] = useState(undefined);
+
+  useEffect(() => {
+    if (loggedIn && identity === 'therapist') {
+      setItems(therapistItems);
+    } else if (loggedIn && identity === 'client') {
+      setItems(clientItems);
+    } else {
+      setItems(undefined);
+    }
+  }, [loggedIn, identity]);
 
   const { token: { colorBgContainer } } = theme.useToken();
 
   const navigate = useNavigate();
   const toMenu = (key) => { navigate('/' + key) };
+  const toProfile = (username) => { navigate('/therapists/profile/' + username) };
 
   const [messageApi, contextHolder] = message.useMessage();
   const success = (msg) => {
@@ -60,12 +87,7 @@ const Root = () => {
     toMenu(e.key);
   };
 
-  const items = [
-    { label: '帳戶資訊', key: '0', },
-    { label: '預約紀錄', key: '1', },
-    { type: 'divider', },
-    { label: '登出', key: 'logout', },
-  ];
+
 
   const onDropdownClick = ({ key }) => {
     if (key === 'logout') {
@@ -73,6 +95,8 @@ const Root = () => {
       setName(undefined);
       setIdentity(undefined);
       setLoggedIn(false);
+    } else if (key === 'profile') {
+      toProfile(username);
     }
   };
 
@@ -85,7 +109,6 @@ const Root = () => {
           loggedIn
             ? <Dropdown
               menu={{ items, onClick: onDropdownClick }}
-              // trigger={['click']}
               overlayStyle={{ color: '#000000E0' }}
             >
               <a onClick={(e) => e.preventDefault()}>

@@ -20,10 +20,10 @@ const Login = ({ error, setLoggedIn, setUsername, setName, setIdentity }) => {
   const ToHome = () => { navigete('/') };
 
   const onFinish = async (values) => {
-    const { message, name, identity } = await login(values);
+    const { message, username, name, identity } = await login(values);
     if (message === 'SUCCESS_LOGIN') {
       setLoggedIn(true);
-      setUsername(values.username);
+      setUsername(username);
       setName(name);
       setIdentity(identity)
       ToHome();

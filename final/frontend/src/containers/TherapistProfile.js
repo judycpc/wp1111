@@ -1,29 +1,28 @@
 import React, { useState } from 'react';
 import { Layout, Row, Col, Typography, Card, Avatar, Button, Table, Tag, Input, Form } from 'antd';
-import { EditOutlined, PlusOutlined, CheckOutlined } from '@ant-design/icons';
+import { EditOutlined, PlusOutlined, CheckOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
 const { Meta } = Card;
 const { TextArea } = Input;
+const { CheckableTag } = Tag;
 
-const columns = ['一', '二', '三', '四', '五', '六', '日'].map((e) => ({
-  title: <div>{e}<Button shape='circle' style={{ marginLeft: 20 }}><EditOutlined /></Button></div>,
-  index: e,
-  align: 'center',
-  render: (input) => {
-    const intervals = input[e];
-    return new Array(10).fill(null).map((_, i) => (
-      <Tag key={i + 8} style={{
-        backgroundColor: (intervals.includes(i + 8) ? '#d9f7be' : '#f0f0f0'),
-        width: '70%',
-        margin: '5px 0'
-      }}>
-        {("0" + (i + 8)).slice(-2) + ':00 - ' + ("0" + (i + 9)).slice(-2) + ':00'}
-      </Tag>
-    ));
+
+
+
+const data = [
+  {
+    key: 0,
+    '一': [9, 10, 11],
+    '二': [11, 12, 13],
+    '三': [13, 14, 15],
+    '四': [16, 17, 18],
+    '五': [19, 20, 21],
+    '六': [8, 9, 10],
+    '日': [11, 12, 13],
   }
-}));
+];
 
 // fake intro
 const _intro = "治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介";
@@ -37,6 +36,17 @@ const TherapistProfile = () => {
   const [editIntro, setEditIntro] = useState(false);
   const [exp, setExp] = useState(_exp);
   const [editExpIdx, setEditExpIdx] = useState(undefined);
+  const [editTime, setEditTime] = useState(false);
+  const [dataSource, setDataSource] = useState([{
+    key: 0,
+    '一': [9, 10, 11],
+    '二': [11, 12, 13],
+    '三': [13, 14, 15],
+    '四': [16, 17, 18],
+    '五': [19, 20, 21],
+    '六': [8, 9, 10],
+    '日': [11, 12, 13],
+  }]);
 
   const handleCreateExp = () => {
     let newExp = exp;
@@ -46,31 +56,73 @@ const TherapistProfile = () => {
   };
 
   const onFinish = (values) => {
-    let newExp = exp;
+    let newExp = [...exp];
     newExp[editExpIdx] = values;
     setExp(newExp);
     setEditExpIdx(undefined);
   };
 
   const onCancel = () => {
-    let newExp = exp;
+    let newExp = [...exp];
     newExp = newExp.slice(0, -1);
     setExp(newExp);
     setEditExpIdx(undefined);
   }
 
-  const data = [
-    {
-      key: 0,
-      '一': [9, 10, 11],
-      '二': [11, 12, 13],
-      '三': [13, 14, 15],
-      '四': [16, 17, 18],
-      '五': [19, 20, 21],
-      '六': [8, 9, 10],
-      '日': [11, 12, 13],
+  const deleteExp = (i) => {
+    let newExp = [...exp];
+    newExp.splice(i, 1);
+    setExp(newExp);
+  }
+
+  const handleEditTime = () => {
+    // if (editTime) put
+    setEditTime(!editTime);
+  };
+
+  const handleTagChange = (day, time, checked) => {
+    let newData = JSON.parse(JSON.stringify(dataSource));
+    if (checked && !newData[0][day].includes(time)) {
+      newData[0][day] = [...newData[0][day], time];
+    } else if (!checked && newData[0][day].includes(time)) {
+      newData.splice(newData[0][day].indexOf(time), 1);
     }
-  ];
+    setDataSource(newData);
+  }
+
+  const columns = ['一', '二', '三', '四', '五', '六', '日'].map((e) => ({
+    title: e,
+    index: e,
+    align: 'center',
+    render: (input) => {
+      const intervals = input[e];
+
+      if (editTime) {
+        return new Array(24).fill(null).map((_, i) => (
+          <CheckableTag key={i} checked={intervals.includes(i)}
+            onChange={checked => handleTagChange(e, i, checked)}
+            style={{
+              // backgroundColor: (intervals.includes(i) ? '#d9f7be' : '#f0f0f0'),
+              // color: '#000000E0',
+              width: '70%',
+              margin: '5px 0'
+            }}>
+            {("0" + (i)).slice(-2) + ':00 - ' + ("0" + (i + 1)).slice(-2) + ':00'}
+          </CheckableTag>
+        ));
+      }
+
+      return new Array(24).fill(null).map((_, i) => (
+        <Tag key={i} style={{
+          backgroundColor: (intervals.includes(i) ? '#d9f7be' : '#f0f0f0'),
+          width: '70%',
+          margin: '5px 0'
+        }}>
+          {("0" + (i)).slice(-2) + ':00 - ' + ("0" + (i + 1)).slice(-2) + ':00'}
+        </Tag>
+      ));
+    }
+  }));
 
   return (
     <Content style={{ backgroundColor: '#fff' }}>
@@ -209,7 +261,10 @@ const TherapistProfile = () => {
                                 <Text color='#000000A0' style={{ fontSize: 18 }}>{time}</Text>
                                 <Text color='#000000A0' style={{ fontSize: 18 }}>{content}</Text>
                               </div>
-                              <Button shape='circle' size='large' onClick={() => setEditExpIdx(i)} ><EditOutlined /></Button>
+                              <div>
+                                <Button shape='circle' size='large' onClick={() => deleteExp(i)} style={{ marginRight: 8 }}><DeleteOutlined /></Button>
+                                <Button shape='circle' size='large' onClick={() => setEditExpIdx(i)} ><EditOutlined /></Button>
+                              </div>
                             </>
                           )
                       }
@@ -226,13 +281,17 @@ const TherapistProfile = () => {
         <Col span={20} style={{ padding: '10px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', wigth: '100%' }}>
             <Title level={3} color='#000000E0' > 諮詢時段 </Title>
-            {/* <Button type='default' style={{ margin: '12px 0' }}>
-              <EditOutlined style={{ marginRight: 4 }} />修改
-            </Button> */}
+            <Button type='default' onClick={handleEditTime} style={{ margin: '12px 0' }}>
+              {
+                editTime
+                  ? <><CheckOutlined style={{ marginRight: 12 }} />儲存</>
+                  : <><EditOutlined style={{ marginRight: 12 }} />修改</>
+              }
+            </Button>
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={dataSource}
             pagination={false}
           />
         </Col>

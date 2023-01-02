@@ -5,14 +5,22 @@ const instance = axios.create({
   headers: { 'Content-Type': 'application/json' }
 });
 
+const getInstance = axios.create({
+  baseURL: "http://127.0.0.1:5000/api"
+});
+
 instance.interceptors.response.use(
   (response) => response,
   (error) => Promise.reject(error.response)
 );
 
+getInstance.interceptors.response.use(
+  (response) => response,
+  (error) => Promise.reject(error.response)
+);
 
 const getDisorders = async () => {
-  const data = await instance.get('/disorders/')
+  const data = await getInstance.get('/disorders/')
     .then(res => res.data)
     .catch(e => console.error('getDisorders failed', e));
 
@@ -27,7 +35,7 @@ const getDisorders = async () => {
 };
 
 const getTherapists = async (category) => {
-  const data = await instance.get('/therapists/categories/', {
+  const data = await getInstance.get('/accounts/therapists/categories/', {
     params: { category }
   }).then(res => res.data)
     .catch(e => console.error('getTherapists failed', e));
@@ -50,5 +58,7 @@ const login = async ({ username, password }) => {
 
   return data;
 };
+
+
 
 export { getDisorders, getTherapists, signup, login };

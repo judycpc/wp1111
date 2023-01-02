@@ -32,7 +32,7 @@ const Videos = () => {
   return (
     <>
       <Divider style={{ fontSize: 18 }}>推薦影片</Divider>
-      <List
+      {/* <List
         itemLayout="horizontal"
         dataSource={data}
         renderItem={(item) => (
@@ -45,7 +45,7 @@ const Videos = () => {
             </Container>
           </List.Item>
         )}
-      />
+      /> */}
     </>
   );
 }
