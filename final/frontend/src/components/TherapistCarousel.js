@@ -12,9 +12,7 @@ const TherapistCarousel = ({ disorder }) => {
   const [therapists, setTherapists] = useState([]);
 
   const navigate = useNavigate();
-  const toTherapist = (username, name, disorder_categories, avatar, introduction, available_time) => {
-    navigate('/therapists/' + username, { state: { name, disorder_categories, avatar, introduction, available_time } })
-  };
+  const toTherapist = (username) => navigate('/therapists/' + username);
 
   useEffect(() => {
     const initTherapists = async () => {
@@ -36,9 +34,9 @@ const TherapistCarousel = ({ disorder }) => {
         nextArrow={<RightOutlined />}
       >
         {
-          therapists.map(({ username, name, disorder_categories, avatar, introduction, available_time }) => {
+          therapists.map(({ username, name, avatar }) => {
             return (
-              <div key={username}><Card hoverable onClick={() => toTherapist(username, name, disorder_categories, avatar, introduction, available_time)}>
+              <div key={username}><Card hoverable onClick={() => toTherapist(username)}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <Avatar size={128} src={avatar} style={{ margin: '16px 0' }} />
                   <Meta description={<p style={{ color: 'black' }}>{name} 治療師</p>} />

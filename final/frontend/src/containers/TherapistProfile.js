@@ -16,6 +16,7 @@ const checkboxOptions = [
   '身體', '醒覺', '飲食'
 ];
 
+const Day = ['日', '一', '二', '三', '四', '五', '六'];
 
 const TherapistProfile = () => {
   const { username } = useParams();
@@ -28,16 +29,7 @@ const TherapistProfile = () => {
   const [exp, setExp] = useState([]);
   const [editExpIdx, setEditExpIdx] = useState(undefined);
   const [editTime, setEditTime] = useState(false);
-  const [dataSource, setDataSource] = useState([{
-    key: 0,
-    '一': [9, 10, 11],
-    '二': [11, 12, 13],
-    '三': [13, 14, 15],
-    '四': [16, 17, 18],
-    '五': [19, 20, 21],
-    '六': [8, 9, 10],
-    '日': [11, 12, 13],
-  }]);
+  const [dataSource, setDataSource] = useState([]);
 
   useEffect(() => {
     const init = async () => {
@@ -49,6 +41,7 @@ const TherapistProfile = () => {
         setDisorders(disorder_categories);
         setIntro(introduction);
         setExp(experiences);
+        setDataSource(available_time);
       } else {
         console.error('getInfo failed: ' + message)
       }
@@ -65,17 +58,30 @@ const TherapistProfile = () => {
     setEditDisorder(!editDisorder);
   }
 
+  const handleEditIntro = async () => {
+    if (editIntro) {
+      const { message } = await updateInfo({ username, introduction: intro });
+      if (message !== 'SUCCESS_UPDATE') console.error('update introduction failed: ' + message);
+    }
+    setEditIntro(!editIntro);
+  }
+
   const handleCreateExp = () => {
-    let newExp = exp;
-    newExp[newExp.length] = { title: undefined, time: undefined, content: undefined };
+    let newExp = [...exp];
+    newExp = [...newExp, { title: undefined, time: undefined, content: undefined }];
     setExp(newExp);
-    setEditExpIdx(exp.length - 1);
+    setEditExpIdx(newExp.length - 1);
   };
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     let newExp = [...exp];
     newExp[editExpIdx] = values;
-    setExp(newExp);
+    const { message } = await updateInfo({ username, experiences: newExp });
+    if (message !== 'SUCCESS_UPDATE') {
+      console.error('update experience failed: ' + message);
+    } else {
+      setExp(newExp);
+    }
     setEditExpIdx(undefined);
   };
 
@@ -84,43 +90,56 @@ const TherapistProfile = () => {
     newExp = newExp.slice(0, -1);
     setExp(newExp);
     setEditExpIdx(undefined);
-  }
+  };
 
-  const deleteExp = (i) => {
+  const deleteExp = async (i) => {
     let newExp = [...exp];
     newExp.splice(i, 1);
-    setExp(newExp);
-  }
+    const { message } = await updateInfo({ username, experiences: newExp });
+    if (message !== 'SUCCESS_UPDATE') {
+      console.error('delete experience failed: ' + message);
+    } else {
+      setExp(newExp);
+    }
+  };
 
-  const handleEditTime = () => {
-    // if (editTime) put
+  const handleEditTime = async () => {
+    if (editTime) {
+      const { message } = await updateInfo({ username, available_time: dataSource });
+      if (message !== 'SUCCESS_UPDATE') console.error('update available time failed: ' + message);
+    }
     setEditTime(!editTime);
   };
 
   const handleTagChange = (day, time, checked) => {
     let newData = JSON.parse(JSON.stringify(dataSource));
-    if (checked && !newData[0][day].includes(time)) {
-      newData[0][day] = [...newData[0][day], time];
-    } else if (!checked && newData[0][day].includes(time)) {
-      newData.splice(newData[0][day].indexOf(time), 1);
+    if (!newData[day]) newData[day] = [];
+
+    if (checked && !newData[day].includes(time)) {
+      newData[day] = [...newData[day], time].sort();
+    } else if (!checked && newData[day].includes(time)) {
+      newData[day].splice(newData[day].indexOf(time), 1);
     }
+
     setDataSource(newData);
   }
 
-  const columns = ['一', '二', '三', '四', '五', '六', '日'].map((e) => ({
-    title: e,
+  const columns = [0, 1, 2, 3, 4, 5, 6].map((e) => ({
+    title: Day[e],
     index: e,
     align: 'center',
     render: (input) => {
-      const intervals = input[e];
+      let intervals = input[e];
+      if (!intervals) intervals = [];
 
       if (editTime) {
         return new Array(24).fill(null).map((_, i) => (
           <CheckableTag key={i} checked={intervals.includes(i)}
             onChange={checked => handleTagChange(e, i, checked)}
             style={{
-              // backgroundColor: (intervals.includes(i) ? '#d9f7be' : '#f0f0f0'),
+              // backgroundColor: (intervals.includes(i) ? '#D8E2DC' : '#f0f0f0'),
               // color: '#000000E0',
+              border: 'none',
               width: '70%',
               margin: '5px 0'
             }}>
@@ -131,7 +150,8 @@ const TherapistProfile = () => {
 
       return new Array(24).fill(null).map((_, i) => (
         <Tag key={i} style={{
-          backgroundColor: (intervals.includes(i) ? '#d9f7be' : '#f0f0f0'),
+          backgroundColor: (intervals.includes(i) ? '#FFD7BA' : null),
+          border: 'none',
           width: '70%',
           margin: '5px 0'
         }}>
@@ -202,10 +222,7 @@ const TherapistProfile = () => {
                       shape='circle'
                       type={editIntro ? 'primary' : 'default'}
                       style={{ marginLeft: 8 }}
-                      onClick={() => {
-                        // if (editIntro) send to backend
-                        setEditIntro(!editIntro);
-                      }}
+                      onClick={handleEditIntro}
                     >
                       {editIntro ? <CheckOutlined /> : <EditOutlined />}
                     </Button>
@@ -326,7 +343,7 @@ const TherapistProfile = () => {
         <Col span={20} style={{ padding: '10px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', wigth: '100%' }}>
             <Title level={3} color='#000000E0' > 諮詢時段 </Title>
-            <Button type='default' onClick={handleEditTime} style={{ margin: '12px 0' }}>
+            <Button type={editTime ? 'primary' : 'default'} onClick={handleEditTime} style={{ margin: '12px 0' }}>
               {
                 editTime
                   ? <><CheckOutlined style={{ marginRight: 12 }} />儲存</>
@@ -336,7 +353,7 @@ const TherapistProfile = () => {
           </div>
           <Table
             columns={columns}
-            dataSource={dataSource}
+            dataSource={[{ key: 0, ...dataSource }]}
             pagination={false}
           />
         </Col>
