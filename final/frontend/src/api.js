@@ -59,6 +59,21 @@ const login = async ({ username, password }) => {
   return data;
 };
 
+const getInfo = async (username) => {
+  const data = await getInstance.get('/accounts/getinfo/', {
+    params: { username }
+  }).then(res => res.data)
+    .catch(e => console.error('getInfo failed', e));
 
+  return data;
+};
 
-export { getDisorders, getTherapists, signup, login };
+const updateInfo = async (input) => {
+  const data = await instance.put('/accounts/updateinfo/', input)
+    .then(res => res.data)
+    .catch(e => console.error('updateInfo failed', e));
+
+  return data;
+}
+
+export { getDisorders, getTherapists, signup, login, getInfo, updateInfo };

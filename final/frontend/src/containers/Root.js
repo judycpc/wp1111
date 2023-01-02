@@ -141,9 +141,9 @@ const Root = () => {
         </Route>
         <Route path='login' element={<Login error={error} setLoggedIn={setLoggedIn} setUsername={setUsername} setName={setName} setIdentity={setIdentity} />} />
         <Route path='signup' element={<Signup success={success} warning={warning} error={error} />} />
-        <Route path='therapists/:id' element={<TherapistDetail />} />
+        <Route path='therapists/:username' element={<TherapistDetail />} />
         <Route path='appointment/:id' element={<Appointment />} />
-        <Route path='therapists/profile/:id' element={<TherapistProfile />} />
+        <Route path='therapists/profile/:username' element={<TherapistProfile />} />
         <Route path='userinfo' element={<Userinfo />} />
         <Route path='bookings' element={<Bookings />} />
       </Routes>

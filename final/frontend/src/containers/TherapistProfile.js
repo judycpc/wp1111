@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { Layout, Row, Col, Typography, Card, Avatar, Button, Table, Tag, Input, Form } from 'antd';
-import { EditOutlined, PlusOutlined, CheckOutlined, DeleteOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { Layout, Row, Col, Typography, Card, Avatar, Button, Table, Tag, Input, Form, Checkbox } from 'antd';
+import { EditOutlined, PlusOutlined, CheckOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
+import { getInfo, updateInfo } from '../api';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -8,33 +10,22 @@ const { Meta } = Card;
 const { TextArea } = Input;
 const { CheckableTag } = Tag;
 
-
-
-
-const data = [
-  {
-    key: 0,
-    '一': [9, 10, 11],
-    '二': [11, 12, 13],
-    '三': [13, 14, 15],
-    '四': [16, 17, 18],
-    '五': [19, 20, 21],
-    '六': [8, 9, 10],
-    '日': [11, 12, 13],
-  }
+const checkboxOptions = [
+  '人格', '壓力', '強迫', '思覺失調', '憂鬱',
+  '成癮', '焦慮', '發展', '神經', '躁鬱',
+  '身體', '醒覺', '飲食'
 ];
 
-// fake intro
-const _intro = "治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介 治療師簡介";
-
-const _exp = [
-  { title: 'XX單位XX諮商師', time: '2022.12.01 - 2022.12.30', content: '具體工作內容' }
-]
 
 const TherapistProfile = () => {
-  const [intro, setIntro] = useState(_intro);
+  const { username } = useParams();
+
+  const [name, setName] = useState('');
+  const [disorders, setDisorders] = useState([])
+  const [editDisorder, setEditDisorder] = useState(false);
+  const [intro, setIntro] = useState('');
   const [editIntro, setEditIntro] = useState(false);
-  const [exp, setExp] = useState(_exp);
+  const [exp, setExp] = useState([]);
   const [editExpIdx, setEditExpIdx] = useState(undefined);
   const [editTime, setEditTime] = useState(false);
   const [dataSource, setDataSource] = useState([{
@@ -47,6 +38,32 @@ const TherapistProfile = () => {
     '六': [8, 9, 10],
     '日': [11, 12, 13],
   }]);
+
+  useEffect(() => {
+    const init = async () => {
+      let { message, info } = await getInfo(username);
+
+      if (message === "SUCCESS_GET") {
+        const { name, introduction, experiences, avatar, disorder_categories, available_time } = info;
+        setName(name);
+        setDisorders(disorder_categories);
+        setIntro(introduction);
+        setExp(experiences);
+      } else {
+        console.error('getInfo failed: ' + message)
+      }
+    };
+
+    init();
+  }, []);
+
+  const handleEditDisorder = async () => {
+    if (editDisorder) {
+      const { message } = await updateInfo({ username, disorder_categories: disorders });
+      if (message !== 'SUCCESS_UPDATE') console.error('update disorder categories failed: ' + message);
+    }
+    setEditDisorder(!editDisorder);
+  }
 
   const handleCreateExp = () => {
     let newExp = exp;
@@ -137,7 +154,7 @@ const TherapistProfile = () => {
                     src="https://img1.wsimg.com/isteam/ip/bc2e5cab-6169-4181-9e51-89df4fb88348/黃珮雯%20臨床心理師.jpg/:/cr=t:11.07%25,l:0%25,w:100%25,h:77.85%25/rs=w:365,h:365,cg:true"
                     size={128}
                   />
-                  <Button shape='circle'><EditOutlined /></Button>
+                  <Button shape='circle'><UploadOutlined /></Button>
                 </div>
               }
               title={
@@ -145,12 +162,40 @@ const TherapistProfile = () => {
                   level={3}
                   color='#000000E0'
                   style={{ margin: '10px 0 8px 0' }}
-                >XXX 治療師
+                >{name} 治療師
                 </Title>
               }
               description={
                 <>
-                  <Text color='#000000A0' style={{ fontSize: 18 }}>已完成 100 堂諮詢</Text>
+                  <div style={{ display: 'flex', alignItems: (editDisorder ? 'flex-start' : 'center'), margin: '15px 0' }}>
+                    <Text color='#000000E0' style={{ fontSize: 20, marginRight: 12 }}>專業領域</Text>
+                    {
+                      editDisorder
+                        ? (
+                          <Checkbox.Group defaultValue={disorders} onChange={(values) => setDisorders(values)} style={{ width: '50%', margin: '0 20px' }}>
+                            <Row>
+                              {
+                                checkboxOptions.map(e => (
+                                  <Col span={8} key={e}>
+                                    <Checkbox value={e} style={{ fontSize: 18 }}>{e}</Checkbox>
+                                  </Col>
+                                ))
+                              }
+                            </Row>
+                          </Checkbox.Group>
+                        ) : (
+                          disorders.map(c => (<Tag key={c} color="#ECE4DB" style={{ fontSize: 18, padding: '5px 10px', color: '#000000E0' }}>{c}</Tag>))
+                        )
+                    }
+                    <Button
+                      shape='circle'
+                      type={editDisorder ? 'primary' : 'default'}
+                      style={{ marginLeft: 8 }}
+                      onClick={handleEditDisorder}
+                    >
+                      {editDisorder ? <CheckOutlined /> : <EditOutlined />}
+                    </Button>
+                  </div>
                   <div style={{ display: 'flex', alignItems: 'center', margin: '15px 0' }}>
                     <Text color='#000000E0' style={{ fontSize: 20 }}>簡介</Text>
                     <Button
