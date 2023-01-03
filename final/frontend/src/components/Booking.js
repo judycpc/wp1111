@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Input, Rate } from 'antd';
 import styled from 'styled-components';
+import { getInfo } from '../api';
 
 const { TextArea } = Input;
 
@@ -24,12 +25,25 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
   
   const [newRate, setNewRate] = useState(0);
   const [newComment, setNewComment] = useState('');
+  const [name, setName] = useState('');
+
+  const getName = async (username) => {
+    let { message, info } = await getInfo(username);
+
+    if (message === "SUCCESS_GET") {
+      const { name } = info;
+      setName(name);
+    } else {
+      console.error('getBookingName failed: ' + message)
+    }
+  }
   
   if(identity === 'client'){
+    getName(therapist)
     if(status === 'ACTIVE'){
       return (
         <BookingContainer>
-          <BookingDetailContainer>治療師 : {therapist}</BookingDetailContainer>
+          <BookingDetailContainer>治療師 : {name}</BookingDetailContainer>
           <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
           <BookingDetailContainer style={{ marginBottom: '10px' }}>諮詢室連結 : {meeting_code}</BookingDetailContainer>
         </BookingContainer>
@@ -39,7 +53,7 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
     else if(status === 'UNCOMMENTED'){
       return (
         <BookingContainer>
-          <BookingDetailContainer>治療師 : {therapist}</BookingDetailContainer>
+          <BookingDetailContainer>治療師 : {name}</BookingDetailContainer>
           <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
           <BookingDetailContainer>請留下您的寶貴意見 :</BookingDetailContainer>
           <BookingDetailContainer>
@@ -58,7 +72,7 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
     else if(status === 'COMMENTED'){
       return (
         <BookingContainer>
-          <BookingDetailContainer>治療師姓名 : {therapist}</BookingDetailContainer>
+          <BookingDetailContainer>治療師 : {name}</BookingDetailContainer>
           <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
           <BookingDetailContainer style={{ marginBottom: '10px', color: 'gray' }}>已填寫評論</BookingDetailContainer>
         </BookingContainer>
@@ -67,10 +81,11 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
   }
 
   else if(identity === 'therapist'){
+    getName(client)
     if(status === 'ACTIVE'){
       return (
         <BookingContainer>
-          <BookingDetailContainer>諮詢者 : {client}</BookingDetailContainer>
+          <BookingDetailContainer>諮詢者 : {name}</BookingDetailContainer>
           <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
           <BookingDetailContainer style={{ marginBottom: '10px' }}>諮詢室連結 : {meeting_code}</BookingDetailContainer>
         </BookingContainer>
@@ -80,7 +95,7 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
     else if(status === 'UNCOMMENTED'){
       return (
         <BookingContainer>
-          <BookingDetailContainer>諮詢者 : {client}</BookingDetailContainer>
+          <BookingDetailContainer>諮詢者 : {name}</BookingDetailContainer>
           <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
           <BookingDetailContainer style={{ marginBottom: '10px', color: 'gray' }}>諮詢評價 : 未填寫評論</BookingDetailContainer>
         </BookingContainer>
@@ -90,7 +105,7 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
     else if(status === 'COMMENTED'){
       return (
         <BookingContainer>
-          <BookingDetailContainer>諮詢者 : {client}</BookingDetailContainer>
+          <BookingDetailContainer>諮詢者 : {name}</BookingDetailContainer>
           <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
           <BookingDetailContainer>諮詢評價 : {comment}</BookingDetailContainer>
         </BookingContainer>
@@ -100,4 +115,4 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
   
 };
   
- export default Booking;
+export default Booking;
