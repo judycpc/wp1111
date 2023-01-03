@@ -27,15 +27,15 @@ const LogoContainer = styled.div`
 `;
 
 const clientItems = [
-  { label: '帳戶資訊', key: '0', },
-  { label: '預約紀錄', key: '1', },
+  { label: '帳戶資訊', key: 'userinfo', },
+  { label: '預約紀錄', key: 'bookings', },
   { type: 'divider', },
   { label: '登出', key: 'logout', },
 ];
 
 const therapistItems = [
-  { label: '帳戶資訊', key: '0', },
-  { label: '預約紀錄', key: '1', },
+  { label: '帳戶資訊', key: 'userinfo', },
+  { label: '預約紀錄', key: 'bookings', },
   { label: '個人主頁', key: 'profile', },
   { type: 'divider', },
   { label: '登出', key: 'logout', },
@@ -45,7 +45,7 @@ const Root = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState(undefined);
   const [name, setName] = useState(undefined);
-  const [identity, setIdentity] = useState(undefined);
+  const [identity, setIdentity] = useState('therapist'); //測完要改回undefined !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   const [items, setItems] = useState(undefined);
 
   useEffect(() => {
@@ -64,6 +64,8 @@ const Root = () => {
   const toHome = () => { navigate('/') };
   const toMenu = (key) => { navigate('/' + key) };
   const toProfile = (username, loggedIn) => { navigate('/therapists/profile/' + username, { state: { loggedIn, username } }) };
+  const toUserInfo = (username) => { navigate('/userinfo/' + username) };
+  const toBookings = (username) => { navigate('/bookings/' + username) };
 
   const [messageApi, contextHolder] = message.useMessage();
   const success = (msg) => {
@@ -100,6 +102,12 @@ const Root = () => {
       toHome();
     } else if (key === 'profile') {
       toProfile(username, loggedIn);
+    }
+    else if (key === 'userinfo') {
+      toUserInfo(username);
+    }
+    else if (key === 'bookings') {
+      toBookings(username);
     }
   };
 
@@ -148,7 +156,7 @@ const Root = () => {
         <Route path='appointment/:id' element={<Appointment />} />
         <Route path='therapists/profile/:username' element={<TherapistProfile />} />
         <Route path='userinfo/:username' element={<Userinfo />} />
-        <Route path='bookings' element={<Bookings />} />
+        <Route path='bookings/:username' element={<Bookings identity={identity}/>} />
       </Routes>
 
 

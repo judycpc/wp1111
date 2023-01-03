@@ -20,43 +20,78 @@ const BookingDetailContainer = styled.div`
   margin-right: 10px;
 `;
 
-const Booking = ({mode}) => {
-  if(mode === 'waiting'){
-    return (
-      <BookingContainer>
-        <BookingDetailContainer>治療師姓名 : XXX</BookingDetailContainer>
-        <BookingDetailContainer>預約時段 : 12/15 (四) 10:00 ~11:00</BookingDetailContainer>
-        <BookingDetailContainer style={{ marginBottom: '10px' }}>諮詢室連結 : weq-rew-vdfg</BookingDetailContainer>
-      </BookingContainer>
-    );
+const Booking = ({identity, therapist, client, time, meeting_code, comment, status}) => {
+  if(identity === 'client'){
+    if(status === 'ACTIVE'){
+      return (
+        <BookingContainer>
+          <BookingDetailContainer>治療師 : {therapist}</BookingDetailContainer>
+          <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
+          <BookingDetailContainer style={{ marginBottom: '10px' }}>諮詢室連結 : {meeting_code}</BookingDetailContainer>
+        </BookingContainer>
+      );
+    }
+  
+    else if(status === 'UNCOMMENTED'){
+      return (
+        <BookingContainer>
+          <BookingDetailContainer>治療師 : {therapist}</BookingDetailContainer>
+          <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
+          <BookingDetailContainer>請留下您的寶貴意見 :</BookingDetailContainer>
+          <BookingDetailContainer><Rate /></BookingDetailContainer>
+          <BookingDetailContainer>
+          <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px'}}>
+            <TextArea rows={1} />
+            <Button type="default" htmlType="submit" className="login-form-button" style={{marginLeft: '10px'}}>確認送出</Button>
+          </div>
+          </BookingDetailContainer>  
+        </BookingContainer>
+      );
+    } 
+  
+    else if(status === 'COMMENTED'){
+      return (
+        <BookingContainer>
+          <BookingDetailContainer>治療師姓名 : {therapist}</BookingDetailContainer>
+          <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
+          <BookingDetailContainer style={{ marginBottom: '10px', color: 'gray' }}>已填寫評論</BookingDetailContainer>
+        </BookingContainer>
+      );
+    }
   }
 
-  else if(mode === 'comment'){
-    return (
-      <BookingContainer>
-        <BookingDetailContainer>治療師姓名 : XXX</BookingDetailContainer>
-        <BookingDetailContainer>預約時段 : 12/15 (四) 10:00 ~11:00</BookingDetailContainer>
-        <BookingDetailContainer>請留下您的寶貴意見 :</BookingDetailContainer>
-        <BookingDetailContainer><Rate /></BookingDetailContainer>
-        <BookingDetailContainer>
-        <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px'}}>
-          <TextArea rows={1} />
-          <Button type="default" htmlType="submit" className="login-form-button" style={{marginLeft: '10px'}}>確認送出</Button>
-        </div>
-        </BookingDetailContainer>  
-      </BookingContainer>
-    );
-  } 
-
-  else if(mode === 'done'){
-    return (
-      <BookingContainer>
-        <BookingDetailContainer>治療師姓名 : XXX</BookingDetailContainer>
-        <BookingDetailContainer>預約時段 : 12/15 (四) 10:00 ~11:00</BookingDetailContainer>
-        <BookingDetailContainer style={{ marginBottom: '10px', color: 'gray' }}>已填寫評論</BookingDetailContainer>
-      </BookingContainer>
-    );
+  else if(identity === 'therapist'){
+    if(status === 'ACTIVE'){
+      return (
+        <BookingContainer>
+          <BookingDetailContainer>諮詢者 : {client}</BookingDetailContainer>
+          <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
+          <BookingDetailContainer style={{ marginBottom: '10px' }}>諮詢室連結 : {meeting_code}</BookingDetailContainer>
+        </BookingContainer>
+      );
+    }
+  
+    else if(status === 'UNCOMMENTED'){
+      return (
+        <BookingContainer>
+          <BookingDetailContainer>諮詢者 : {client}</BookingDetailContainer>
+          <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
+          <BookingDetailContainer style={{ marginBottom: '10px', color: 'gray' }}>諮詢評價 : 未填寫評論</BookingDetailContainer>
+        </BookingContainer>
+      );
+    } 
+  
+    else if(status === 'COMMENTED'){
+      return (
+        <BookingContainer>
+          <BookingDetailContainer>諮詢者 : {client}</BookingDetailContainer>
+          <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
+          <BookingDetailContainer>諮詢評價 : {comment}</BookingDetailContainer>
+        </BookingContainer>
+      );
+    }
   }
+  
 };
   
  export default Booking;
