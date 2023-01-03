@@ -71,7 +71,7 @@ const Therapists = () => {
                     level={4}
                     color='#000000E0'
                     style={{ margin: '20px 10px', textAlign: 'right' }}
-                  >NT 100 / 60 分鐘
+                  >NT 500 / 60 分鐘
                   </Title>
                   <Button
                     size='large'

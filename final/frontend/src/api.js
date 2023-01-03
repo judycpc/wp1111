@@ -104,9 +104,18 @@ const getAppointments = async (input) => {
   const data = await getInstance.get('/appointments/get/', {
     params: input
   }).then(res => res.data)
-    .catch(e => console.error('getAppointments', e));
+    .catch(e => console.error('getAppointments error', e));
 
   return data;
 }
 
-export { getDisorders, getTherapists, signup, login, getInfo, updateInfo, search, uploadAvatar, getAppointments };
+const createAppointment = async ({ therapist, client, time, meeting_code }) => {
+  console.log({ therapist, client, time, meeting_code });
+  const data = await instance.post('/appointments/create/', { therapist, client, time, meeting_code })
+    .then(res => res.data)
+    .catch(e => console.error('createAppointment error', e));
+
+  return data;
+}
+
+export { getDisorders, getTherapists, signup, login, getInfo, updateInfo, search, uploadAvatar, getAppointments, createAppointment };
