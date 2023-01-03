@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
-import { Layout, Row, Col, Avatar, Card, Typography, Table, Button, Rate, Tag } from "antd";
+import { Layout, Row, Col, Avatar, Card, Typography, Table, Button, Rate, Tag, message } from "antd";
 import { getInfo, getAppointments } from "../api";
 
 
@@ -44,7 +44,9 @@ const getData = (time, appointments) => {
   return data;
 };
 
-const TherapistDetail = () => {
+const TherapistDetail = (props) => {
+  const { loggedIn, identity, client } = props;
+
   const { username } = useParams();
   const [name, setName] = useState('');
   const [avatar, setAvatar] = useState('');
@@ -81,6 +83,13 @@ const TherapistDetail = () => {
     init();
   }, []);
 
+  const handleNewAppointment = (loggedIn, identity, client, username, date, day, time) => {
+    if (!loggedIn || identity !== 'client') {
+      message.error({ content: '請以使用者身份登入' });
+    } else {
+      toAppointment(client, username, date, day, time)
+    }
+  }
 
   const columns = new Array(7).fill(null).map((_, i) => {
     let d = new Date();
@@ -106,7 +115,7 @@ const TherapistDetail = () => {
               <Button
                 type="text"
                 disabled={!available}
-                onClick={() => toAppointment(username, date, day, time)}
+                onClick={() => handleNewAppointment(loggedIn, identity, client, username, date, day, time)}
                 style={{ margin: '5px 0', backgroundColor: (available ? '#FEC89A' : '#fff1f0') }}
               >{time}</Button>
             </div>
@@ -121,7 +130,7 @@ const TherapistDetail = () => {
 
 
   const navigate = useNavigate();
-  const toAppointment = (username, date, day, time) => navigate('/appointment/' + username, { replace: true, state: { date, day, time } });
+  const toAppointment = (client, username, date, day, time) => navigate('/appointment/' + username, { replace: true, state: { client, date, day, time } });
 
   return (
     <Content style={{ backgroundColor: '#fff' }}>
@@ -210,23 +219,27 @@ const TherapistDetail = () => {
           >
             諮詢評價
           </Title>
-          <Card style={{ margin: 20 }}>
-            <Meta
-              title={
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Title level={4} color='#000000E0' style={{ margin: 0 }} >帳號名稱</Title>
-                  <div style={{ marginLeft: 20 }}>
-                    <Rate disabled allowHalf defaultValue={4.5} style={{ color: '#FEC89A' }} />
-                    <span className="ant-rate-text" color="#000000E0">{4.5}</span>
-                  </div>
-                </div>
-              }
-              description={
-                <Paragraph style={{ fontSize: 18, color: '#000000A0' }}>
-                  諮詢評價 諮詢評價 諮詢評價 諮詢評價 諮詢評價 諮詢評價 諮詢評價 諮詢評價 諮詢評價 諮詢評價 諮詢評價 諮詢評價 諮詢評價 諮詢評價 諮詢評價 諮詢評價 諮詢評價
-                </Paragraph>}
-            />
-          </Card>
+          {
+            appointments.filter(a => a.status === 'COMMENTED').map(({ client, rating, comment }, i) => (
+              <Card key={i} style={{ margin: 20 }}>
+                <Meta
+                  title={
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Title level={4} color='#000000E0' style={{ margin: 0 }} >@{client}</Title>
+                      <div style={{ marginLeft: 20 }}>
+                        <Rate disabled allowHalf defaultValue={rating} style={{ color: '#FEC89A' }} />
+                        <span className="ant-rate-text" color="#000000E0">{rating}</span>
+                      </div>
+                    </div>
+                  }
+                  description={
+                    <Paragraph style={{ fontSize: 18, color: '#000000A0' }}>
+                      {comment}
+                    </Paragraph>}
+                />
+              </Card>
+            ))
+          }
         </Col>
       </Row>
     </Content>
