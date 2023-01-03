@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Layout, Row, Col,Button, Form, Input, } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+import { getInfo, updateInfo } from '../api';
 
 
 const { Content } = Layout;
@@ -13,17 +15,68 @@ const UserinfoContainer = styled.div`
 
 
 const Userinfo = () => { 
-const [identity, setIdentity] = useState('user');
-const [isEditPassword, setIsEditPassword] = useState(false);
-const [isEditMail, setIsEditMail] = useState(false);
+  //const [identity, setIdentity] = useState('user');
+  const { username } = useParams();
 
-const handleEditPassword = () => {
+  const [name, setName] = useState('');
+  const [account, setAccount] = useState('');
+  const [password, setPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [mail, setMail] = useState('');
+  const [newMail, setNewMail] = useState('');
+
+  const [isEditPassword, setIsEditPassword] = useState(false);
+  const [isEditMail, setIsEditMail] = useState(false);
+
+  useEffect(() => {
+    const init = async () => {
+      let { message, info } = await getInfo(username);
+
+      if (message === "SUCCESS_GET") {
+        const { name, password, email } = info;
+        setName(name);
+        setAccount(username);
+        setPassword(password);
+        setMail(email);
+      } else {
+        console.error('getInfo failed: ' + message)
+      }
+    };
+
+    init();
+  }, []);
+
+  const handleEditPassword = () => {
     setIsEditPassword(!isEditPassword)
-}
+  }
 
-const handleEditMail = () => {
+  const handleUpdatePassword = async () => {
+    if (isEditPassword) {
+        if(oldPassword === password){
+            const { message } = await updateInfo({ username, password: newPassword });
+            if (message !== 'SUCCESS_UPDATE') console.error('update introduction failed: ' + message);
+            else setPassword(newPassword);
+        }
+        else{
+            alert("舊密碼不正確")
+        }
+    }
+    setIsEditPassword(!isEditPassword);
+  }
+
+  const handleEditMail = () => {
     setIsEditMail(!isEditMail)
-}
+  }
+
+  const handleUpdateMail = async () => {
+    if (isEditMail) {
+      const { message } = await updateInfo({ username, email: newMail });
+      if (message !== 'SUCCESS_UPDATE') console.error('update introduction failed: ' + message);
+      else setMail(newMail);
+    }
+    setIsEditMail(!isEditMail);
+  }
 
   return (
     <Content style={{ display: 'flex', padding: '0', minHeight: 'auto' }}>
@@ -32,22 +85,23 @@ const handleEditMail = () => {
             <UserinfoContainer>
                 <h3>帳戶資訊</h3>
                 <div style={{display: 'flex', justifyContent: 'space-between' }}>
-                    <p>姓名 : user1</p>
+                    <p>姓名 : {name}</p>
                 </div>
                 <div style={{display: 'flex', justifyContent: 'space-between' }}>
-                    <p>帳號 : user1</p>
+                    <p>帳號 : {account}</p>
                 </div>
                 <div>
                 {
                     isEditPassword?
-                    <>
+                    <Form>
                     <Form.Item
-                        name="password"
+                        name="oldpassword"
                         label="舊密碼"
                         rules={[{ required: true, message: '請輸入您的舊密碼' }]}
                         hasFeedback
+                        onChange={(e) => setOldPassword(e.target.value)}
                     >
-                        <Input.Password />
+                        <Input />
                     </Form.Item>
 
                    <Form.Item
@@ -55,6 +109,7 @@ const handleEditMail = () => {
                         label="新密碼"
                         rules={[{ required: true, message: '請輸入您的新密碼' }]}
                         hasFeedback
+                        onChange={(e) => setNewPassword(e.target.value)}
                     >
                         <Input.Password />
                     </Form.Item>
@@ -80,11 +135,11 @@ const handleEditMail = () => {
                     </Form.Item>
                     <Form.Item>
                         <div style={{ display: 'flex', justifyContent: 'center'}}>
-                        <Button type="default" htmlType="submit" className="login-form-button" onClick={() => handleEditPassword()}>取消</Button>
-                        <Button type="default" htmlType="submit" className="login-form-button" style={{marginLeft: '5px'}} onClick={() => handleEditPassword()}>確認</Button>
+                        <Button type="default" htmlType="buttom" className="login-form-button" onClick={() => handleEditPassword()}>取消</Button>
+                        <Button type="default" htmlType="submit" className="login-form-button" style={{marginLeft: '5px'}} onClick={() => handleUpdatePassword()}>確認</Button>
                         </div>
                     </Form.Item>
-                    </>
+                    </Form>
                     :
                     <div style={{display: 'flex', justifyContent: 'space-between' }}>
                         <p>密碼 : 已設定</p>
@@ -96,7 +151,7 @@ const handleEditMail = () => {
                 <div>
                 {
                     isEditMail?
-                    <>
+                    <Form>
                     <Form.Item
                         name="email"
                         label="電子信箱"
@@ -104,19 +159,20 @@ const handleEditMail = () => {
                         { type: 'email', message: '輸入為無效電子信箱' },
                         { required: true, message: '請輸入您的電子信箱' }
                         ]}
+                        onChange={(e) => setNewMail(e.target.value)} //?
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <Button type="default" htmlType="submit" className="login-form-button" onClick={() => handleEditMail()}>取消</Button>
-                        <Button type="default" htmlType="submit" className="login-form-button" style={{marginLeft: '5px'}} onClick={() => handleEditMail()}>確認</Button>
+                        <Button type="default" htmlType="buttom" onClick={() => handleEditMail()}>取消</Button>
+                        <Button type="default" htmlType="submit" className="login-form-button" style={{marginLeft: '5px'}} onClick={() => handleUpdateMail()}>確認</Button>
                         </div>
                     </Form.Item>
-                    </>
+                    </Form>
                     :
                     <div style={{display: 'flex', justifyContent: 'space-between' }}>
-                        <p>電子信箱 : user1@gmail.com</p>
+                        <p>電子信箱 : {mail}</p>
                         <EditOutlined onClick={() => handleEditMail()}/>
                     </div>
                 }

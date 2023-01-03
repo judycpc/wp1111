@@ -144,7 +144,7 @@ const Root = () => {
         <Route path='therapists/:username' element={<TherapistDetail />} />
         <Route path='appointment/:id' element={<Appointment />} />
         <Route path='therapists/profile/:username' element={<TherapistProfile />} />
-        <Route path='userinfo' element={<Userinfo />} />
+        <Route path='userinfo/:username' element={<Userinfo />} />
         <Route path='bookings' element={<Bookings />} />
       </Routes>
 
