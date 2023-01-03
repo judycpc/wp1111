@@ -110,7 +110,6 @@ const getAppointments = async (input) => {
 }
 
 const createAppointment = async ({ therapist, client, time, meeting_code }) => {
-  console.log({ therapist, client, time, meeting_code });
   const data = await instance.post('/appointments/create/', { therapist, client, time, meeting_code })
     .then(res => res.data)
     .catch(e => console.error('createAppointment error', e));
@@ -118,4 +117,17 @@ const createAppointment = async ({ therapist, client, time, meeting_code }) => {
   return data;
 }
 
-export { getDisorders, getTherapists, signup, login, getInfo, updateInfo, search, uploadAvatar, getAppointments, createAppointment };
+const getVideos = async () => {
+  const data = await getInstance.get('/videos/')
+    .then(res => res.data)
+    .catch(e => console.error('getVideos error', e));
+
+  let output = {};
+  data.map(d => {
+    output[d.disorder] = d.videos
+  });
+
+  return output;
+};
+
+export { getDisorders, getTherapists, signup, login, getInfo, updateInfo, search, uploadAvatar, getAppointments, createAppointment, getVideos };

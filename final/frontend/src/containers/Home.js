@@ -3,7 +3,7 @@ import { Layout, Col, Row, Cascader, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useNavigate, Outlet } from 'react-router-dom';
-import { getDisorders, search } from '../api';
+import { getDisorders, search, getVideos } from '../api';
 
 
 const { Content } = Layout;
@@ -23,12 +23,16 @@ const StyledCascader = styled(Cascader)`
 
 const Home = () => {
   const [options, setOptions] = useState([]);
+  const [videos, setVideos] = useState({});
   const [symptoms, setSymptoms] = useState([]);
 
   useEffect(() => {
     const initOptions = async () => {
       let response = await getDisorders();
       setOptions(response);
+
+      let v = await getVideos();
+      setVideos(v);
     };
 
     initOptions();
