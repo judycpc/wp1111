@@ -17,7 +17,8 @@ const LoginContainer = styled.div`
 
 const Login = ({ error, setLoggedIn, setUsername, setName, setIdentity }) => {
   const navigete = useNavigate();
-  const ToHome = () => { navigete('/') };
+  const toHome = () => { navigete('/') };
+  const toProfile = (username) => { navigete('/therapists/profile/' + username, { state: { loggedIn: true, username } }) };
 
   const onFinish = async (values) => {
     const { message, username, name, identity } = await login(values);
@@ -26,7 +27,11 @@ const Login = ({ error, setLoggedIn, setUsername, setName, setIdentity }) => {
       setUsername(username);
       setName(name);
       setIdentity(identity)
-      ToHome();
+      if (identity === 'client') {
+        toHome();
+      } else {
+        toProfile(username)
+      }
     } else if (message === 'WRONG_PASSWORD') {
       error('密碼錯誤');
     } else if (message === 'ACCOUNT_DOESNT_EXIST') {

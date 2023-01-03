@@ -3,7 +3,7 @@ import { Layout, Col, Row, Cascader, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useNavigate, Outlet } from 'react-router-dom';
-import { getDisorders } from '../api';
+import { getDisorders, search } from '../api';
 
 
 const { Content } = Layout;
@@ -23,7 +23,7 @@ const StyledCascader = styled(Cascader)`
 
 const Home = () => {
   const [options, setOptions] = useState([]);
-
+  const [symptoms, setSymptoms] = useState([]);
 
   useEffect(() => {
     const initOptions = async () => {
@@ -36,11 +36,25 @@ const Home = () => {
 
 
   const onChange = (value) => {
-    console.log(value);
+    let symptoms = value.map((v) => {
+      if (v.length === 2) return v[v.length - 1];
+      return options.filter((o) => o.label === v[0])[0].children.map(c => c.label);
+    })
+    symptoms = [...new Set(symptoms.flat())];
+    setSymptoms(symptoms);
   };
 
   const navigate = useNavigate();
-  const toTherapists = () => { navigate('/therapists') };
+  const toTherapists = (therapists) => { navigate('/therapists', { state: therapists }) };
+
+  const onClick = async () => {
+    const { therapists, message } = await search(symptoms);
+    if (message === 'SUCCESS_SEARCH') {
+      toTherapists(therapists);
+    } else {
+      console.error('search error: ' + message);
+    }
+  }
 
   return (
     <Content style={{ padding: '0', minHeight: 'auto', display: 'flex', flexDirection: 'column' }}>
@@ -61,7 +75,7 @@ const Home = () => {
               icon={<SearchOutlined />}
               size='large'
               style={{ marginLeft: '8px', border: 'none', color: '#575757' }}
-              onClick={toTherapists}
+              onClick={onClick}
             />
           </CascaderContainer>
         </Col>

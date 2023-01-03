@@ -1,6 +1,6 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Row, Col, Card, Avatar, Typography, Button } from 'antd';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Row, Col, Card, Avatar, Typography, Button, Tag } from 'antd';
 import { StarFilled, ProfileFilled } from '@ant-design/icons';
 import styled from 'styled-components';
 
@@ -23,54 +23,68 @@ const SideContainer = styled.div`
 `;
 
 const Therapists = () => {
+  const { state } = useLocation();
+
   const navigate = useNavigate();
   const toDetail = (id) => { navigate('/therapists/' + id) };
   return (
     <Row justify='center' style={{ backgroundColor: '#fff', padding: '60px', flex: 1 }}>
       <Col span={20}>
-        <Card style={{ marginTop: 20 }}>
-          <div style={{ display: 'flex' }}>
-            <Meta
-              style={{ flex: 3 }}
-              avatar={
-                <Avatar
-                  src="https://img1.wsimg.com/isteam/ip/bc2e5cab-6169-4181-9e51-89df4fb88348/黃珮雯%20臨床心理師.jpg/:/cr=t:11.07%25,l:0%25,w:100%25,h:77.85%25/rs=w:365,h:365,cg:true"
-                  size={96}
-                  style={{ margin: '10px' }}
+        {
+          state.map(({ name, avatar, experiences, disorder_categories, username }, i) => (
+            <Card key={i} style={{ marginTop: 20 }}>
+              <div style={{ display: 'flex' }}>
+                <Meta
+                  style={{ flex: 3 }}
+                  avatar={
+                    <Avatar
+                      src={avatar}
+                      size={96}
+                      style={{ margin: '10px' }}
+                    />
+                  }
+                  title={
+                    <Title
+                      level={4}
+                      color='#000000E0'
+                      style={{ margin: '20px 0 8px 0' }}
+                    >{name} 治療師
+                    </Title>}
+                  description={
+                    <DescriptionContainer>
+                      <div>
+                        {
+                          disorder_categories.map(c => (<Tag key={c} color="#FCD5CE" style={{ fontSize: 18, padding: '5px 10px', color: '#000000E0' }}>{c}</Tag>))
+                        }
+                      </div>
+                      <div style={{ marginTop: 12 }}><ProfileFilled style={{ marginRight: 12 }} />簡歷</div>
+                      {
+                        experiences.map(({ title }, i) => (
+                          <Text key={i} style={{ fontSize: 18, color: '#000000A0' }}>{title}</Text>
+                        ))
+                      }
+                    </DescriptionContainer>
+                  }
                 />
-              }
-              title={
-                <Title
-                  level={4}
-                  color='#000000E0'
-                  style={{ margin: '20px 0 8px 0' }}
-                >XXX 治療師
-                </Title>}
-              description={
-                <DescriptionContainer>
-                  <div><StarFilled style={{ marginRight: 12 }} />4.5 - 10 則評論</div>
-                  <div style={{ marginTop: 12 }}><ProfileFilled style={{ marginRight: 12 }} />簡歷</div>
-                  <Text style={{ fontSize: 16, color: '#000000A0' }}>Ant Design is a design language for background applications.</Text>
-                  <Text style={{ fontSize: 16, color: '#000000A0' }}>Ant Design is a design language for background applications.</Text><Text style={{ fontSize: 16, color: '#000000A0' }}>Ant Design is a design language for background applications.</Text><Text style={{ fontSize: 16, color: '#000000A0' }}>Ant Design is a design language for background applications.</Text>
-                </DescriptionContainer>
-              }
-            />
-            <SideContainer>
-              <Title
-                level={4}
-                color='#000000E0'
-                style={{ margin: '20px 10px', textAlign: 'right' }}
-              >NT 100 / 60 分鐘
-              </Title>
-              <Button
-                size='large'
-                type="primary"
-                onClick={() => toDetail(0)}
-                style={{ background: "#FFF2DF", boxShadow: 'none' }}
-              ><p style={{ margin: '0 20px', color: '#000000E0' }}>預約諮詢</p></Button>
-            </SideContainer>
-          </div>
-        </Card>
+                <SideContainer>
+                  <Title
+                    level={4}
+                    color='#000000E0'
+                    style={{ margin: '20px 10px', textAlign: 'right' }}
+                  >NT 100 / 60 分鐘
+                  </Title>
+                  <Button
+                    size='large'
+                    type="primary"
+                    onClick={() => toDetail(username)}
+                    style={{ background: "#FEC5BB", boxShadow: 'none' }}
+                  ><p style={{ margin: '0 20px', color: '#000000E0' }}>預約諮詢</p></Button>
+                </SideContainer>
+              </div>
+            </Card>
+          ))
+        }
+
       </Col>
     </Row>
 
