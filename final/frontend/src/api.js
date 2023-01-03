@@ -76,4 +76,27 @@ const updateInfo = async (input) => {
   return data;
 }
 
-export { getDisorders, getTherapists, signup, login, getInfo, updateInfo };
+const search = async (symptoms) => {
+  const data = await instance.post('/search/', { symptoms })
+    .then(res => res.data)
+    .catch(e => console.error('search error', e));
+
+  return data;
+}
+
+const uploadAvatar = async (option) => {
+  let { file } = option;
+  let formData = new FormData();
+  formData.append('image', file);
+  const link = await axios.post('https://api.imgur.com/3/image', formData, {
+    headers: {
+      'Authorization': "Client-ID 5738f5e768b634b",
+      'Content-Type': 'multipart/form-data'
+    }
+  }).then(res => res.data.data.link)
+    .catch(e => console.error('uploadAvatar error', e));
+
+  return link;
+};
+
+export { getDisorders, getTherapists, signup, login, getInfo, updateInfo, search, uploadAvatar };

@@ -23,6 +23,7 @@ const LogoContainer = styled.div`
   margin: 0;
   display: inline-block;
   background-color: #d9d9d9;
+  cursor: pointer;
 `;
 
 const clientItems = [
@@ -60,8 +61,9 @@ const Root = () => {
   const { token: { colorBgContainer } } = theme.useToken();
 
   const navigate = useNavigate();
+  const toHome = () => { navigate('/') };
   const toMenu = (key) => { navigate('/' + key) };
-  const toProfile = (username) => { navigate('/therapists/profile/' + username) };
+  const toProfile = (username, loggedIn) => { navigate('/therapists/profile/' + username, { state: { loggedIn, username } }) };
 
   const [messageApi, contextHolder] = message.useMessage();
   const success = (msg) => {
@@ -95,8 +97,9 @@ const Root = () => {
       setName(undefined);
       setIdentity(undefined);
       setLoggedIn(false);
+      toHome();
     } else if (key === 'profile') {
-      toProfile(username);
+      toProfile(username, loggedIn);
     }
   };
 
@@ -104,7 +107,7 @@ const Root = () => {
     <Layout className="layout" style={{ minHeight: "100vh" }}>
       {contextHolder}
       <Header style={{ background: colorBgContainer, display: 'flex', justifyContent: 'space-between' }}>
-        <LogoContainer> logo </LogoContainer>
+        <LogoContainer onClick={toHome}> logo </LogoContainer>
         {
           loggedIn
             ? <Dropdown
@@ -149,7 +152,7 @@ const Root = () => {
       </Routes>
 
 
-      <Footer style={{ textAlign: 'center' }}> Created by Group 15 | NTU Web Programmimg 111-1 </Footer>
+      <Footer style={{ textAlign: 'center', backgroundColor: '#E8E8E4' }}> Created by Group 15 | NTU Web Programmimg 111-1 </Footer>
     </Layout>
   );
 };

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Layout, Row, Col, Typography, Card, Avatar, Button, Table, Tag, Input, Form, Checkbox } from 'antd';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { Layout, Row, Col, Typography, Card, Avatar, Button, Table, Tag, Input, Form, Checkbox, Upload, message } from 'antd';
 import { EditOutlined, PlusOutlined, CheckOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
-import { getInfo, updateInfo } from '../api';
+import { getInfo, updateInfo, uploadAvatar } from '../api';
+
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -20,6 +21,24 @@ const Day = ['日', '一', '二', '三', '四', '五', '六'];
 
 const TherapistProfile = () => {
   const { username } = useParams();
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const toHome = () => navigate('/');
+  useEffect(() => {
+    if (!state) {
+      toHome();
+      message.error({ content: '權限錯誤' })
+    } else if (!state.loggedIn) {
+      toHome();
+      message.error({ content: '權限錯誤' })
+    } else if (state.username !== username) {
+      toHome();
+      message.error({ content: '權限錯誤' })
+    }
+  }, []);
+
+
+
 
   const [name, setName] = useState('');
   const [disorders, setDisorders] = useState([])
@@ -30,6 +49,7 @@ const TherapistProfile = () => {
   const [editExpIdx, setEditExpIdx] = useState(undefined);
   const [editTime, setEditTime] = useState(false);
   const [dataSource, setDataSource] = useState([]);
+  const [avatar, setAvatar] = useState("");
 
   useEffect(() => {
     const init = async () => {
@@ -42,6 +62,7 @@ const TherapistProfile = () => {
         setIntro(introduction);
         setExp(experiences);
         setDataSource(available_time);
+        setAvatar(avatar);
       } else {
         console.error('getInfo failed: ' + message)
       }
@@ -169,12 +190,21 @@ const TherapistProfile = () => {
           <Card>
             <Meta
               avatar={
-                <div style={{ display: 'flex', alignItems: 'flex-end', margin: 10 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '10px 24px 10px 10px' }}>
                   <Avatar
-                    src="https://img1.wsimg.com/isteam/ip/bc2e5cab-6169-4181-9e51-89df4fb88348/黃珮雯%20臨床心理師.jpg/:/cr=t:11.07%25,l:0%25,w:100%25,h:77.85%25/rs=w:365,h:365,cg:true"
+                    src={avatar}
                     size={128}
                   />
-                  <Button shape='circle'><UploadOutlined /></Button>
+                  <Upload
+                    accept='image/*'
+                    fileList={[]}
+                    customRequest={async (option) => {
+                      const link = await uploadAvatar(option);
+                      const { message } = await updateInfo({ username, avatar: link })
+                      if (message !== 'SUCCESS_UPDATE') console.error('update avatar failed: ' + message);
+                      setAvatar(link);
+                    }}
+                  ><Button style={{ marginTop: 12 }}><UploadOutlined />上傳照片</Button></Upload>
                 </div>
               }
               title={
