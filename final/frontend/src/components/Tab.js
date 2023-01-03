@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Tabs } from 'antd';
 import TabContent from './TabContent';
+import { getVideos } from '../api';
 
 const disorders = [
   '人格', '壓力', '強迫', '思覺失調', '憂鬱',
@@ -9,6 +10,17 @@ const disorders = [
 ];
 
 const Tab = () => {
+  const [videos, setVideos] = useState({});
+
+  useEffect(() => {
+    const init = async () => {
+      let v = await getVideos();
+      setVideos(v);
+    };
+
+    init();
+  }, []);
+
   return (
     <Row justify='center' style={{ backgroundColor: '#fff', padding: '60px', flex: 1 }}>
       <Col span={20}>
@@ -20,7 +32,7 @@ const Tab = () => {
             disorders.map((d, i) => ({
               label: <p style={{ fontSize: 20, margin: 0 }}>{d}</p>,
               key: i,
-              children: <TabContent disorder={d} />
+              children: <TabContent disorder={d} videos={videos[d]} />
             }))
           }
         />

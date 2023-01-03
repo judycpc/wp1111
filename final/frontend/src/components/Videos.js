@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactPlayer from 'react-player'
-import { Divider, List, Typography } from 'antd';
+import { Divider, List } from 'antd';
 import styled from 'styled-components';
 
-const { Title } = Typography;
 
 const Container = styled.div`
   display: flex;
@@ -13,39 +12,23 @@ const Container = styled.div`
   margin: 0 0 16px 0;
 `;
 
-const data = [
-  {
-    title: 'Ant Design Title 1',
-  },
-  {
-    title: 'Ant Design Title 2',
-  },
-  {
-    title: 'Ant Design Title 3',
-  },
-  {
-    title: 'Ant Design Title 4',
-  },
-];
-
-const Videos = () => {
+const Videos = ({ videos }) => {
   return (
     <>
       <Divider style={{ fontSize: 18 }}>推薦影片</Divider>
-      {/* <List
+      <List
         itemLayout="horizontal"
-        dataSource={data}
+        dataSource={videos}
         renderItem={(item) => (
           <List.Item>
             <Container>
-              <Title level={5} style={{ margin: 16, width: '80%' }}>{item.title}</Title>
-              <div style={{ width: '90%', height: '60vh' }}>
-                <ReactPlayer controls width='100%' height='100%' url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+              <div style={{ width: '90%', height: '60vh', margin: '40px 0' }}>
+                <ReactPlayer controls width='100%' height='100%' url={item} />
               </div>
             </Container>
           </List.Item>
         )}
-      /> */}
+      />
     </>
   );
 }
