@@ -45,7 +45,7 @@ const Root = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState(undefined);
   const [name, setName] = useState(undefined);
-  const [identity, setIdentity] = useState('therapist'); //測完要改回undefined !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  const [identity, setIdentity] = useState(undefined); //測完要改回undefined !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   const [items, setItems] = useState(undefined);
 
   useEffect(() => {

@@ -117,6 +117,14 @@ const createAppointment = async ({ therapist, client, time, meeting_code }) => {
   return data;
 }
 
+const updateAppointment = async ({ therapist, client, time, rating, comment }) => {
+  const data = await instance.post('/appointments/update/', { therapist, client, time, rating, comment })
+    .then(res => res.data)
+    .catch(e => console.error('updateAppointment error', e));
+
+  return data;
+}
+
 const getVideos = async () => {
   const data = await getInstance.get('/videos/')
     .then(res => res.data)
@@ -130,4 +138,4 @@ const getVideos = async () => {
   return output;
 };
 
-export { getDisorders, getTherapists, signup, login, getInfo, updateInfo, search, uploadAvatar, getAppointments, createAppointment, getVideos };
+export { getDisorders, getTherapists, signup, login, getInfo, updateInfo, search, uploadAvatar, getAppointments, createAppointment, updateAppointment, getVideos };

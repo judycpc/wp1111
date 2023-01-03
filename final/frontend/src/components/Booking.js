@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Form, Input, Rate } from 'antd';
 import styled from 'styled-components';
 
@@ -20,7 +20,11 @@ const BookingDetailContainer = styled.div`
   margin-right: 10px;
 `;
 
-const Booking = ({identity, therapist, client, time, meeting_code, comment, status}) => {
+const Booking = ({identity, therapist, client, time, meeting_code, comment, status, handleUpdateAppointment}) => {
+  
+  const [newRate, setNewRate] = useState(0);
+  const [newComment, setNewComment] = useState('');
+  
   if(identity === 'client'){
     if(status === 'ACTIVE'){
       return (
@@ -38,11 +42,13 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
           <BookingDetailContainer>治療師 : {therapist}</BookingDetailContainer>
           <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
           <BookingDetailContainer>請留下您的寶貴意見 :</BookingDetailContainer>
-          <BookingDetailContainer><Rate /></BookingDetailContainer>
+          <BookingDetailContainer>
+            <Rate onChange={(e) => setNewRate(e.target.value)}/>
+          </BookingDetailContainer>
           <BookingDetailContainer>
           <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px'}}>
-            <TextArea rows={1} />
-            <Button type="default" htmlType="submit" className="login-form-button" style={{marginLeft: '10px'}}>確認送出</Button>
+            <TextArea rows={1} onChange={(e) => setNewComment(e.target.value)}/>
+            <Button type="default" htmlType="submit" className="login-form-button" style={{marginLeft: '10px'}} onclick={() => handleUpdateAppointment(therapist, client, time, newRate, newComment)}>確認送出</Button>
           </div>
           </BookingDetailContainer>  
         </BookingContainer>

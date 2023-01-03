@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Layout, Row, Col } from 'antd';
 import styled from 'styled-components';
 import Booking from "../components/Booking";
-import { getAppointments } from '../api';
+import { getAppointments, updateAppointment } from '../api';
 
 
 const { Content } = Layout;
@@ -15,6 +15,7 @@ const BookingsContainer = styled.div`
 const Bookings = ({identity}) => { 
   const { username } = useParams();
   const [appointments, setAppointments] = useState([]);
+  const [isUpdate, setIsUpdate] = useState(false);
 
   console.log("identity =", identity)
 
@@ -39,7 +40,13 @@ const Bookings = ({identity}) => {
     };
 
     init();
-  }, []);
+  }, [isUpdate]);
+
+  const handleUpdateAppointment = async (therapist, client, time, rating, comment) => {
+      const { message } = await updateAppointment({ therapist, client, time, rating, comment });
+      if (message !== 'SUCCESS_UPDATE') console.error('update appointment comment failed: ' + message);
+      else setIsUpdate(!isUpdate);
+  }
     
   return (
     <Content style={{ display: 'flex', padding: '0', minHeight: 'auto' }}>
@@ -62,6 +69,7 @@ const Bookings = ({identity}) => {
                       meeting_code={meeting_code} 
                       comment={comment} 
                       status={status} 
+                      handleUpdateAppointment={handleUpdateAppointment}
                     />
                   ))
                 }
@@ -77,6 +85,7 @@ const Bookings = ({identity}) => {
                       meeting_code={meeting_code} 
                       comment={comment} 
                       status={status} 
+                      handleUpdateAppointment={handleUpdateAppointment}
                     />
                   ))
                 }
