@@ -30,12 +30,13 @@ const getData = (time, appointments) => {
   for (let i = 0; i < 7; i++) {
     let d = new Date();
     d.setDate(d.getDate() + i + 1);
-    const date = d.toLocaleDateString();
+    const date = d.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' });
     if (!time[d.getDay()]) {
       data[date.slice(5)] = [];
     } else {
       data[date.slice(5)] = time[d.getDay()].map((hour) => {
-        if (unavailables.includes(date + '_' + hour)) return { hour, available: false }
+        const h = ("0" + hour).slice(-2);
+        if (unavailables.includes(date + '_' + h)) return { hour, available: false }
         return { hour, available: true }
       })
     }
@@ -94,7 +95,7 @@ const TherapistDetail = (props) => {
   const columns = new Array(7).fill(null).map((_, i) => {
     let d = new Date();
     d.setDate(d.getDate() + i + 1);
-    const date = d.toLocaleDateString();
+    const date = d.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' });
     const day = zh_day[d.getDay()];
     return ({
       title: date.slice(5) + '(' + day + ')',

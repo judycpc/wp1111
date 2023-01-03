@@ -28,7 +28,7 @@ const Appointment = () => {
   }, []);
 
   const appointment = date + '（' + day + '）' + time;
-  const reqTime = date + '_' + parseInt(time.slice(0, 2));
+  const reqTime = date + '_' + time.slice(0, 2);
 
   const navigate = useNavigate();
   const goBack = () => navigate('/therapists/' + id);
