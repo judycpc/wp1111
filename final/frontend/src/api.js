@@ -99,4 +99,14 @@ const uploadAvatar = async (option) => {
   return link;
 };
 
-export { getDisorders, getTherapists, signup, login, getInfo, updateInfo, search, uploadAvatar };
+const getAppointments = async (input) => {
+  Object.keys(input).forEach(key => input[key] === undefined ? delete input[key] : {});
+  const data = await getInstance.get('/appointments/get/', {
+    params: input
+  }).then(res => res.data)
+    .catch(e => console.error('getAppointments', e));
+
+  return data;
+}
+
+export { getDisorders, getTherapists, signup, login, getInfo, updateInfo, search, uploadAvatar, getAppointments };

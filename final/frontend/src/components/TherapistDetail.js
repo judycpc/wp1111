@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { Layout, Row, Col, Avatar, Card, Typography, Table, Button, Rate, Tag } from "antd";
-import { getInfo } from "../api";
+import { getInfo, getAppointments } from "../api";
 
 
 const { Content } = Layout;
@@ -23,18 +23,21 @@ const data = [
   }
 ];
 
-const getData = (time) => {
-  console.log(time);
+const getData = (time, appointments) => {
   let data = { key: 0 };
+  const unavailables = appointments.filter(a => a.status === 'ACTIVE').map(a => a.time);
 
   for (let i = 0; i < 7; i++) {
     let d = new Date();
     d.setDate(d.getDate() + i + 1);
-    const date = d.toLocaleDateString().slice(5);
+    const date = d.toLocaleDateString();
     if (!time[d.getDay()]) {
-      data[date] = [];
+      data[date.slice(5)] = [];
     } else {
-      data[date] = time[d.getDay()].map((hour) => ({ hour, available: true }))
+      data[date.slice(5)] = time[d.getDay()].map((hour) => {
+        if (unavailables.includes(date + '_' + hour)) return { hour, available: false }
+        return { hour, available: true }
+      })
     }
   }
 
@@ -49,6 +52,7 @@ const TherapistDetail = () => {
   const [introduction, setIntroduction] = useState('');
   const [exp, setExp] = useState([]);
   const [time, setTime] = useState([]);
+  const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
     const init = async () => {
@@ -63,14 +67,20 @@ const TherapistDetail = () => {
         setExp(experiences);
         setTime(available_time);
       } else {
-        console.error('getInfo failed: ' + message)
+        console.error('getInfo failed: ' + message);
+      }
+
+      let app_res = await getAppointments({ therapist: username });
+      if (app_res.message === 'GET_RESULTS') {
+        setAppointments(app_res.appointments);
+      } else {
+        console.error('getAppointments failed: ' + app_res.message);
       }
     };
 
     init();
   }, []);
 
-  console.log(getData(time));
 
   const columns = new Array(7).fill(null).map((_, i) => {
     let d = new Date();
@@ -82,8 +92,12 @@ const TherapistDetail = () => {
       dataIndex: date.slice(5),
       align: 'center',
       render: (_, input) => {
-        const intervals = input[date.slice(5)];
-        // if (!intervals) return;
+        let intervals = input[date.slice(5)];
+        // if (!intervals) {
+        //   console.log(input)
+        //   console.log(date.slice(5))
+        //   intervals = [];
+        // }
 
         const output = intervals.map(({ hour, available }) => {
           const time = ("0" + hour).slice(-2) + ':00 - ' + ("0" + (hour + 1)).slice(-2) + ':00';
@@ -106,8 +120,8 @@ const TherapistDetail = () => {
 
 
 
-  const navigete = useNavigate();
-  const toAppointment = (username, date, day, time) => navigete('/appointment/' + username, { replace: true, state: { date, day, time } });
+  const navigate = useNavigate();
+  const toAppointment = (username, date, day, time) => navigate('/appointment/' + username, { replace: true, state: { date, day, time } });
 
   return (
     <Content style={{ backgroundColor: '#fff' }}>
@@ -177,10 +191,11 @@ const TherapistDetail = () => {
           >
             諮詢時段
           </Title>
-          <Text color='#0000E0' style={{ fontSize: 18, margin: 20 }}>您可以預約未來一週的時段，橘色為可諮詢時段，點擊進入預約</Text>
+          <Text color='#0000E0' style={{ fontSize: 18, margin: 20 }}>您可以預約未來一週的時段，深色為可諮詢時段，點擊進入預約</Text>
           <Table
             columns={columns}
-            dataSource={[getData(time)]}
+            dataSource={[getData(time, appointments)]}
+            // dataSource={data}
             pagination={false}
             style={{ margin: '20px' }}
           />

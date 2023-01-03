@@ -24,7 +24,6 @@ const Signup = ({ success, warning, error }) => {
 
   const onFinish = async (values) => {
     const { message } = await signup({ ...values, identity });
-    console.log(message)
     if (message === 'SUCCESS_ACCOUNT_CREATION') {
       success('註冊成功');
       toLogin();
