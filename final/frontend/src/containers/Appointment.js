@@ -35,12 +35,35 @@ const Appointment = () => {
   // const goBack = () => navigate(-1);
   const toHome = () => navigate('/');
 
+  const generate_meeting_code = () => {
+    let string = '';
+    for (var i = 0; i < 12; i++){
+      let chr_type = Math.floor(Math.random() * 3);
+      if (i === 3 || i === 8){
+        string += '-';
+      } 
+      else if (chr_type === 0){
+        let ascii = 65 + Math.floor(Math.random() * 26)
+        string += String.fromCharCode(ascii)
+      }
+      else if (chr_type === 1){
+        let ascii = 97 + Math.floor(Math.random() * 26)
+        string += String.fromCharCode(ascii)
+      }
+      else {
+        string += (Math.floor(Math.random() * 10)).toString();
+      }
+    }
+    return string
+  }
+
   const onClick = async () => {
+    const meetingCode = generate_meeting_code()
     const res = await createAppointment({
       therapist: id,
       client,
       time: reqTime,
-      meeting_code: "hdm-iwxa-fwi"
+      meeting_code: meetingCode
     });
     if (res.message === 'SUCCESS_APPOINTMENT_CREATION') {
       message.success({ content: '預約成功' })
