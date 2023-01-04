@@ -56,9 +56,6 @@ const Bookings = ({identity}) => {
             <BookingsContainer>
                 <h3>預約紀錄</h3>
                 <h4>預約中</h4>
-                {/* <Booking
-                    mode = {'waiting'}
-                /> */}
                 {
                   appointments.filter(a => a.status === 'ACTIVE').map(({ therapist, client, time, meeting_code, comment, status }, i) => (
                     <Booking 
@@ -90,15 +87,6 @@ const Bookings = ({identity}) => {
                     />
                   ))
                 }
-                {/* <Booking
-                    mode = {'comment'}
-                />
-                <Booking
-                    mode = {'done'}
-                />
-                <Booking
-                    mode = {'done'}
-                /> */}
             </BookingsContainer>
         </Col>
       </Row>

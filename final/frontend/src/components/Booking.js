@@ -11,7 +11,7 @@ const BookingContainer = styled.div`
   font-size: 14px;
   width: 600px;
   border-radius: 10px;
-  background: #FFF2DF;
+  background: #FFE5D9;
   margin-bottom: 20px;
 `;
 
@@ -23,8 +23,6 @@ const BookingDetailContainer = styled.div`
 
 const Booking = ({identity, therapist, client, time, meeting_code, comment, status, handleUpdateAppointment}) => {
   
-  // const [newRate, setNewRate] = useState(0);
-  // const [convertedTime, setConvertedTime] = useState('');
   const [newComment, setNewComment] = useState(false);
   const [newStatus, setNewStatus] = useState('COMMENTED');
   const [name, setName] = useState('');
@@ -40,7 +38,6 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
     }
   }
 
-  // convert time
   const convertTime = (time) => {
     let date = time.substring(0, 10)
     let hour = Number(time.substring(11, 13))
@@ -49,7 +46,6 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
     if(hour <= 8)
     {
       tempTime = date + " 0" + hour.toString() + " : 00 - 0" + (hour+1).toString() + " : 00"
-      //setConvertedTime(date + " 0" + hour.toString() + " : 00 - 0" + (hour+1).toString() + " : 00")
     }
     else if(hour === 9)
     {
@@ -102,18 +98,13 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
               >
               <Form.Item name="rating">
                 <Rate />
-                {/* onClick={(e) => setNewRate(e.target.value)} */}
               </Form.Item>
-              {/* </BookingDetailContainer>
-              <BookingDetailContainer> */}
                 <div style={{ display: 'flex', flexDirection: 'row'}}>
-                  {/* <TextArea rows={1} onChange={(e) => setNewComment(e.target.value)}/> */}
                   <Form.Item name="comment">
                     <Input.TextArea showCount maxLength={100} style={{width: '475px'}}/>
                   </Form.Item>
                   <Form.Item>
                     <Button type="default"  htmlType="submit" style={{marginLeft: '10px'}} >確認送出</Button>
-                    {/* onclick={console.log("comment", newRate, newComment)} */}
                   </Form.Item>
                 </div>
               </Form>
@@ -163,7 +154,7 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
         <BookingContainer>
           <BookingDetailContainer>諮詢者 : {name}</BookingDetailContainer>
           <BookingDetailContainer>預約時段 : {convertTime(time)}</BookingDetailContainer>
-          <BookingDetailContainer>諮詢評價 : {comment}</BookingDetailContainer>
+          <BookingDetailContainer style={{ marginBottom: '10px' }}>諮詢評價 : {comment}</BookingDetailContainer>
         </BookingContainer>
       );
     }
