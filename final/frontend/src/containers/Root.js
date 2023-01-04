@@ -15,7 +15,7 @@ import Tab from "../components/Tab";
 import Therapists from "../components/Therapists";
 import TherapistDetail from "../components/TherapistDetail";
 
-import LOGOIMG from "../images/logo.png"
+import LOGOIMG from "../img/logo.png"
 
 
 const { Header, Footer } = Layout;
