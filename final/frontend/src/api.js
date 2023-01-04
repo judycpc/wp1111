@@ -117,8 +117,8 @@ const createAppointment = async ({ therapist, client, time, meeting_code }) => {
   return data;
 }
 
-const updateAppointment = async ({ therapist, client, time, rating, comment }) => {
-  const data = await instance.post('/appointments/update/', { therapist, client, time, rating, comment })
+const updateAppointment = async ({ therapist, client, time, rating, comment, status }) => {
+  const data = await instance.put('/appointments/update/', { therapist, client, time, rating, comment, status })
     .then(res => res.data)
     .catch(e => console.error('updateAppointment error', e));
 

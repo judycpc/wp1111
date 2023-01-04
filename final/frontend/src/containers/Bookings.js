@@ -40,12 +40,13 @@ const Bookings = ({identity}) => {
     };
 
     init();
-  }, [isUpdate]);
+  }, []);
 
-  const handleUpdateAppointment = async (therapist, client, time, rating, comment) => {
-      const { message } = await updateAppointment({ therapist, client, time, rating, comment });
+  const handleUpdateAppointment = async (therapist, client, time, rating, comment, status) => {
+    console.log("handleUpdateAppointment", therapist, client, time, rating, comment, status)
+      const { message } = await updateAppointment({ therapist, client, time, rating, comment, status });
       if (message !== 'SUCCESS_UPDATE') console.error('update appointment comment failed: ' + message);
-      else setIsUpdate(!isUpdate);
+      //else setIsUpdate(!isUpdate);
   }
     
   return (

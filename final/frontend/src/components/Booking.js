@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Form, Input, Rate } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Button, Form, Input, Rate, Typography } from 'antd';
 import styled from 'styled-components';
 import { getInfo } from '../api';
 
@@ -23,8 +23,10 @@ const BookingDetailContainer = styled.div`
 
 const Booking = ({identity, therapist, client, time, meeting_code, comment, status, handleUpdateAppointment}) => {
   
-  const [newRate, setNewRate] = useState(0);
-  const [newComment, setNewComment] = useState('');
+  // const [newRate, setNewRate] = useState(0);
+  // const [convertedTime, setConvertedTime] = useState('');
+  const [newComment, setNewComment] = useState(false);
+  const [newStatus, setNewStatus] = useState('COMMENTED');
   const [name, setName] = useState('');
 
   const getName = async (username) => {
@@ -37,14 +39,46 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
       console.error('getBookingName failed: ' + message)
     }
   }
+
+  // convert time
+  const convertTime = (time) => {
+    let date = time.substring(0, 10)
+    let hour = Number(time.substring(11, 13))
+    let tempTime = ''
+    console.log("convertTime", date + " " + hour.toString() + " : 00 - " + (hour+1).toString() + " : 00")
+    if(hour <= 8)
+    {
+      tempTime = date + " 0" + hour.toString() + " : 00 - 0" + (hour+1).toString() + " : 00"
+      //setConvertedTime(date + " 0" + hour.toString() + " : 00 - 0" + (hour+1).toString() + " : 00")
+    }
+    else if(hour === 9)
+    {
+      tempTime = date + " 0" + hour.toString() + " : 00 - " + (hour+1).toString() + " : 00"
+    }
+    else{
+      tempTime = date + " " + hour.toString() + " : 00 - " + (hour+1).toString() + " : 00"
+    }
+    return tempTime
+  }
+
+  const onFinish = (values) => {
+    console.log('Success:', values);
+    console.log(therapist, client, time, values.rating, values.comment, newStatus)
+    handleUpdateAppointment(therapist, client, time, values.rating, values.comment, newStatus)
+    setNewComment(!newComment)
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
   
+  //convertTime()
   if(identity === 'client'){
     getName(therapist)
     if(status === 'ACTIVE'){
       return (
         <BookingContainer>
           <BookingDetailContainer>治療師 : {name}</BookingDetailContainer>
-          <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
+          <BookingDetailContainer>預約時段 : {convertTime(time)}</BookingDetailContainer>
           <BookingDetailContainer style={{ marginBottom: '10px' }}>諮詢室連結 : {meeting_code}</BookingDetailContainer>
         </BookingContainer>
       );
@@ -54,26 +88,48 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
       return (
         <BookingContainer>
           <BookingDetailContainer>治療師 : {name}</BookingDetailContainer>
-          <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
-          <BookingDetailContainer>請留下您的寶貴意見 :</BookingDetailContainer>
-          <BookingDetailContainer>
-            <Rate onChange={(e) => setNewRate(e.target.value)}/>
-          </BookingDetailContainer>
-          <BookingDetailContainer>
-          <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px'}}>
-            <TextArea rows={1} onChange={(e) => setNewComment(e.target.value)}/>
-            <Button type="default" htmlType="submit" className="login-form-button" style={{marginLeft: '10px'}} onclick={() => handleUpdateAppointment(therapist, client, time, newRate, newComment)}>確認送出</Button>
-          </div>
-          </BookingDetailContainer>  
-        </BookingContainer>
+          <BookingDetailContainer>預約時段 : {convertTime(time)}</BookingDetailContainer>
+          {
+            newComment? 
+            <BookingDetailContainer style={{ marginBottom: '10px', color: 'gray' }}>已填寫評論</BookingDetailContainer>
+            :
+            <>
+            <BookingDetailContainer>請留下您的寶貴意見 :</BookingDetailContainer>
+            <BookingDetailContainer>
+              <Form
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+              >
+              <Form.Item name="rating">
+                <Rate />
+                {/* onClick={(e) => setNewRate(e.target.value)} */}
+              </Form.Item>
+              {/* </BookingDetailContainer>
+              <BookingDetailContainer> */}
+                <div style={{ display: 'flex', flexDirection: 'row'}}>
+                  {/* <TextArea rows={1} onChange={(e) => setNewComment(e.target.value)}/> */}
+                  <Form.Item name="comment">
+                    <Input.TextArea showCount maxLength={100} style={{width: '475px'}}/>
+                  </Form.Item>
+                  <Form.Item>
+                    <Button type="default"  htmlType="submit" style={{marginLeft: '10px'}} >確認送出</Button>
+                    {/* onclick={console.log("comment", newRate, newComment)} */}
+                  </Form.Item>
+                </div>
+              </Form>
+              </BookingDetailContainer>  
+            </>
+          }
+          </BookingContainer>
       );
     } 
+    // () => handleUpdateAppointment(therapist, client, time, newRate, newComment)
   
     else if(status === 'COMMENTED'){
       return (
         <BookingContainer>
           <BookingDetailContainer>治療師 : {name}</BookingDetailContainer>
-          <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
+          <BookingDetailContainer>預約時段 : {convertTime(time)}</BookingDetailContainer>
           <BookingDetailContainer style={{ marginBottom: '10px', color: 'gray' }}>已填寫評論</BookingDetailContainer>
         </BookingContainer>
       );
@@ -86,7 +142,7 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
       return (
         <BookingContainer>
           <BookingDetailContainer>諮詢者 : {name}</BookingDetailContainer>
-          <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
+          <BookingDetailContainer>預約時段 : {convertTime(time)}</BookingDetailContainer>
           <BookingDetailContainer style={{ marginBottom: '10px' }}>諮詢室連結 : {meeting_code}</BookingDetailContainer>
         </BookingContainer>
       );
@@ -96,7 +152,7 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
       return (
         <BookingContainer>
           <BookingDetailContainer>諮詢者 : {name}</BookingDetailContainer>
-          <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
+          <BookingDetailContainer>預約時段 : {convertTime(time)}</BookingDetailContainer>
           <BookingDetailContainer style={{ marginBottom: '10px', color: 'gray' }}>諮詢評價 : 未填寫評論</BookingDetailContainer>
         </BookingContainer>
       );
@@ -106,7 +162,7 @@ const Booking = ({identity, therapist, client, time, meeting_code, comment, stat
       return (
         <BookingContainer>
           <BookingDetailContainer>諮詢者 : {name}</BookingDetailContainer>
-          <BookingDetailContainer>預約時段 : {time}</BookingDetailContainer>
+          <BookingDetailContainer>預約時段 : {convertTime(time)}</BookingDetailContainer>
           <BookingDetailContainer>諮詢評價 : {comment}</BookingDetailContainer>
         </BookingContainer>
       );
