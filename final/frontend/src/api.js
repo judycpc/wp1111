@@ -1,12 +1,17 @@
 import axios from "axios";
 
+const API_ROOT =
+  process.env.NODE_ENV === 'production'
+    ? "/"
+    : "http://127.0.0.1:5000/api";
+
 const instance = axios.create({
-  baseURL: "http://127.0.0.1:5000/api",
+  baseURL: API_ROOT,
   headers: { 'Content-Type': 'application/json' }
 });
 
 const getInstance = axios.create({
-  baseURL: "http://127.0.0.1:5000/api"
+  baseURL: API_ROOT
 });
 
 instance.interceptors.response.use(
