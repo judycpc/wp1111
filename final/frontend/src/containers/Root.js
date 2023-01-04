@@ -15,14 +15,14 @@ import Tab from "../components/Tab";
 import Therapists from "../components/Therapists";
 import TherapistDetail from "../components/TherapistDetail";
 
-import LOGOIMG from "../Images/2.png" 
+import LOGOIMG from "../Images/2.png"
 
 
 const { Header, Footer } = Layout;
 
 const LogoContainer = styled.div`
-  height: 100px;
-  width: 150px;
+  height: 100%;
+  // width: 150px;
   margin: 0;
   display: inline-block;
   background-color: white;
@@ -30,8 +30,8 @@ const LogoContainer = styled.div`
 `;
 
 const LogoImg = styled.img`
-  height: 50%;
-  margin: 10px 0px 2px 20px;
+  height: 80%;
+  margin: 12px 0 0;
 `;
 
 const clientItems = [
@@ -122,8 +122,8 @@ const Root = () => {
   return (
     <Layout className="layout" style={{ minHeight: "100vh" }}>
       {contextHolder}
-      <Header style={{ background: colorBgContainer, display: 'flex', justifyContent: 'space-between' }}>
-        <LogoContainer onClick={toHome}> <LogoImg src={LOGOIMG} alt='logo'/> </LogoContainer>
+      <Header style={{ background: colorBgContainer, display: 'flex', justifyContent: 'space-between', minHeight: 84, alignItems: 'center' }}>
+        <LogoContainer onClick={toHome}> <LogoImg src={LOGOIMG} alt='logo' /> </LogoContainer>
         {
           loggedIn
             ? <Dropdown
@@ -142,7 +142,9 @@ const Root = () => {
             : <Menu
               theme='light'
               mode='horizontal'
+              selectedKeys={[]}
               onClick={onClick}
+              style={{ fontSize: 16, height: '100%', paddingTop: 12 }}
               items={[
                 { key: 'signup', label: '註冊' },
                 { key: 'login', label: '登入' }
@@ -164,7 +166,7 @@ const Root = () => {
         <Route path='appointment/:id' element={<Appointment />} />
         <Route path='therapists/profile/:username' element={<TherapistProfile />} />
         <Route path='userinfo/:username' element={<Userinfo />} />
-        <Route path='bookings/:username' element={<Bookings identity={identity}/>} />
+        <Route path='bookings/:username' element={<Bookings identity={identity} />} />
       </Routes>
 
 
