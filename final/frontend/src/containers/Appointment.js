@@ -58,7 +58,7 @@ const Appointment = () => {
         <Col span={10}>
           <Card
             bordered={false}
-            style={{ backgroundColor: '#fff2df', margin: '160px 0' }}
+            style={{ backgroundColor: '#F8EDEB', margin: '160px 0' }}
           >
             <div>
               <Button type="text" onClick={goBack} style={{ padding: '4px 8px' }}>
@@ -73,15 +73,15 @@ const Appointment = () => {
                   alignItems: 'flex-start'
                 }}
               >
-                <Text color='#0000E0' style={{ fontSize: 18, margin: '5px 0' }}>治療師姓名：{name}</Text>
+                <Text color='#0000E0' style={{ fontSize: 18, margin: '5px 0' }}>心理師姓名：{name}</Text>
                 <Text color='#0000E0' style={{ fontSize: 18, margin: '5px 0' }}> 預約時段：{appointment}</Text>
-                <Text color='#0000E0' style={{ fontSize: 18, margin: '5px 0' }}> 諮商價格：NT 500</Text>
-                <Text color='#0000E0' style={{ fontSize: 18, margin: '5px 0' }}> 初次諮商請您提早 5~10 分鐘至諮商室，方便了解您的諮商權益。</Text>
-                <Text color='#0000E0' style={{ fontSize: 18, margin: '5px 0' }}> 後續諮商計畫，將由治療師與您共同討論。</Text>
+                <Text color='#0000E0' style={{ fontSize: 18, margin: '5px 0' }}> 晤談價格：NT 500</Text>
+                <Text color='#0000E0' style={{ fontSize: 18, margin: '5px 0' }}> 初次晤談請您提早 5~10 分鐘至晤談室，方便了解您的晤談權益。</Text>
+                <Text color='#0000E0' style={{ fontSize: 18, margin: '5px 0' }}> 後續晤談計畫，將由心理師與您共同討論。</Text>
               </div>
             </div>
             <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: 10 }}>
-              <Button size='large' onClick={onClick}>確認預約</Button>
+              <Button size='large' type='text' onClick={onClick} style={{ backgroundColor: '#FFD7BA' }}>確認預約</Button>
             </div>
           </Card>
         </Col>

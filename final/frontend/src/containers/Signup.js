@@ -50,7 +50,7 @@ const Signup = ({ success, warning, error }) => {
       <Form.Item
         name="name"
         label="姓名"
-        tooltip={identity === 'client' ? "諮商前需驗證您的健保卡資訊，請務必確實填寫您的真實姓名" : "請填寫真實姓名"}
+        tooltip={identity === 'client' ? "晤談前需驗證您的健保卡資訊，請務必確實填寫您的真實姓名" : "請填寫真實姓名"}
         rules={[
           {
             required: true,
@@ -138,7 +138,7 @@ const Signup = ({ success, warning, error }) => {
                   children: SignupForm,
                 },
                 {
-                  label: <p style={{ fontSize: 20, margin: 0 }}>治療師</p>,
+                  label: <p style={{ fontSize: 20, margin: 0 }}>心理師</p>,
                   key: 'therapist',
                   children: SignupForm
                 }

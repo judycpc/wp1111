@@ -48,7 +48,7 @@ const Therapists = () => {
                       level={4}
                       color='#000000E0'
                       style={{ margin: '20px 0 8px 0' }}
-                    >{name} 治療師
+                    >{name} 心理師
                     </Title>}
                   description={
                     <DescriptionContainer>
@@ -78,7 +78,7 @@ const Therapists = () => {
                     type="primary"
                     onClick={() => toDetail(username)}
                     style={{ background: "#FEC5BB", boxShadow: 'none' }}
-                  ><p style={{ margin: '0 20px', color: '#000000E0' }}>預約諮詢</p></Button>
+                  ><p style={{ margin: '0 20px', color: '#000000E0' }}>預約晤談</p></Button>
                 </SideContainer>
               </div>
             </Card>

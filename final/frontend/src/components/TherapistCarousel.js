@@ -25,7 +25,7 @@ const TherapistCarousel = ({ disorder }) => {
 
   return (
     <>
-      <Divider style={{ fontSize: 18 }}>治療師</Divider>
+      <Divider style={{ fontSize: 18 }}>心理師</Divider>
       <Carousel
         slidesToShow={4}
         dots={false}
@@ -39,7 +39,7 @@ const TherapistCarousel = ({ disorder }) => {
               <div key={username}><Card hoverable onClick={() => toTherapist(username)}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <Avatar size={128} src={avatar} style={{ margin: '16px 0' }} />
-                  <Meta description={<p style={{ color: 'black' }}>{name} 治療師</p>} />
+                  <Meta description={<p style={{ color: 'black' }}>{name} 心理師</p>} />
                 </div>
               </Card></div>
             )

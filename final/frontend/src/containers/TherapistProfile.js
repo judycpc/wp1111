@@ -214,7 +214,7 @@ const TherapistProfile = () => {
                   level={3}
                   color='#000000E0'
                   style={{ margin: '10px 0 8px 0' }}
-                >{name} 治療師
+                >{name} 心理師
                 </Title>
               }
               description={
@@ -284,7 +284,7 @@ const TherapistProfile = () => {
               level={3}
               color='#000000E0'
             >
-              治療師簡歷
+              心理師簡歷
             </Title>
             <Button type='default' style={{ margin: '12px 0' }} onClick={handleCreateExp} disabled={editExpIdx !== undefined}>
               <PlusOutlined style={{ marginRight: 4 }} />新增
@@ -314,7 +314,7 @@ const TherapistProfile = () => {
                                   },
                                 ]}
                               >
-                                <Input placeholder='XX單位XX諮商師' />
+                                <Input placeholder='XX單位XX心理師' />
                               </Form.Item>
                               <Form.Item
                                 label="在職期間"
@@ -374,7 +374,7 @@ const TherapistProfile = () => {
       <Row justify='center' style={{ margin: '20px 0 80px 0' }}>
         <Col span={20} style={{ padding: '10px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', wigth: '100%' }}>
-            <Title level={3} color='#000000E0' > 諮詢時段 </Title>
+            <Title level={3} color='#000000E0' > 晤談時段 </Title>
             <Button type={editTime ? 'primary' : 'default'} onClick={handleEditTime} style={{ margin: '12px 0' }}>
               {
                 editTime

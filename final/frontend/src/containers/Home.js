@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Col, Row, Cascader, Button } from 'antd';
+import { Layout, Col, Row, Cascader, Button, message } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useNavigate, Outlet } from 'react-router-dom';
@@ -48,11 +48,16 @@ const Home = () => {
   const toTherapists = (therapists) => { navigate('/therapists', { state: therapists }) };
 
   const onClick = async () => {
-    const { therapists, message } = await search(symptoms);
-    if (message === 'SUCCESS_SEARCH') {
-      toTherapists(therapists);
+    if (symptoms.length === 0) {
+      message.warning({ content: '請勾選症狀' });
+      return;
+    }
+
+    const res = await search(symptoms);
+    if (res.message === 'SUCCESS_SEARCH') {
+      toTherapists(res.therapists);
     } else {
-      console.error('search error: ' + message);
+      console.error('search error: ' + res.message);
     }
   }
 

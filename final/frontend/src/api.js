@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_ROOT =
   process.env.NODE_ENV === 'production'
-    ? "http://140.112.31.158:8081/"
+    ? "http://127.0.0.1:5000/api" // remote backend
     : "http://127.0.0.1:5000/api";
 
 const instance = axios.create({

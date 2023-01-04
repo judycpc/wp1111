@@ -151,7 +151,7 @@ const TherapistDetail = (props) => {
                   level={3}
                   color='#000000E0'
                   style={{ margin: '10px 0 8px 0' }}
-                >{name} 治療師
+                >{name} 心理師
                 </Title>
               }
               description={
@@ -173,7 +173,7 @@ const TherapistDetail = (props) => {
             level={3}
             color='#000000E0'
           >
-            治療師簡歷
+            心理師簡歷
           </Title>
           {
             exp.map(({ title, time, content }, i) => (
@@ -199,9 +199,9 @@ const TherapistDetail = (props) => {
             level={3}
             color='#000000E0'
           >
-            諮詢時段
+            晤談時段
           </Title>
-          <Text color='#0000E0' style={{ fontSize: 18, margin: 20 }}>您可以預約未來一週的時段，深色為可諮詢時段，點擊進入預約</Text>
+          <Text color='#0000E0' style={{ fontSize: 18, margin: 20 }}>您可以預約未來一週的時段，深色為可預約時段，點擊進入預約</Text>
           <Table
             columns={columns}
             dataSource={[getData(time, appointments)]}
@@ -218,7 +218,7 @@ const TherapistDetail = (props) => {
             level={3}
             color='#000000E0'
           >
-            諮詢評價
+            晤談評價
           </Title>
           {
             appointments.filter(a => a.status === 'COMMENTED').map(({ client, rating, comment }, i) => (
