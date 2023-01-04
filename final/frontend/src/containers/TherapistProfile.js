@@ -137,7 +137,9 @@ const TherapistProfile = () => {
     if (!newData[day]) newData[day] = [];
 
     if (checked && !newData[day].includes(time)) {
-      newData[day] = [...newData[day], time].sort();
+      newData[day] = [...newData[day], time];
+      newData[day].sort((a, b) => (a - b));
+      console.log(newData)
     } else if (!checked && newData[day].includes(time)) {
       newData[day].splice(newData[day].indexOf(time), 1);
     }
