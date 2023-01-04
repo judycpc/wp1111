@@ -54,6 +54,7 @@ const Root = () => {
   const [username, setUsername] = useState(undefined);
   const [name, setName] = useState(undefined);
   const [identity, setIdentity] = useState(undefined); //測完要改回undefined !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  const [password, setPassword] = useState('');
   const [items, setItems] = useState(undefined);
 
   useEffect(() => {
@@ -160,12 +161,12 @@ const Root = () => {
           <Route path='' element={<Tab />} />
           <Route path='therapists' element={<Therapists />} />
         </Route>
-        <Route path='login' element={<Login error={error} setLoggedIn={setLoggedIn} setUsername={setUsername} setName={setName} setIdentity={setIdentity} />} />
+        <Route path='login' element={<Login error={error} setLoggedIn={setLoggedIn} setUsername={setUsername} setName={setName} setIdentity={setIdentity} setPassword={setPassword} />} />
         <Route path='signup' element={<Signup success={success} warning={warning} error={error} />} />
         <Route path='therapists/:username' element={<TherapistDetail loggedIn={loggedIn} identity={identity} client={username} />} />
         <Route path='appointment/:id' element={<Appointment />} />
         <Route path='therapists/profile/:username' element={<TherapistProfile />} />
-        <Route path='userinfo/:username' element={<Userinfo />} />
+        <Route path='userinfo/:username' element={<Userinfo error={error} password={password} setPassword={setPassword}/>} />
         <Route path='bookings/:username' element={<Bookings identity={identity} />} />
       </Routes>
 

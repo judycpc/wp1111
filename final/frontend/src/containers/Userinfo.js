@@ -14,13 +14,13 @@ const UserinfoContainer = styled.div`
 `;
 
 
-const Userinfo = () => { 
+const Userinfo = ({error, password, setPassword}) => { 
   //const [identity, setIdentity] = useState('user');
   const { username } = useParams();
 
   const [name, setName] = useState('');
   const [account, setAccount] = useState('');
-  const [password, setPassword] = useState('');
+  //const [password, setPassword] = useState('');
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [mail, setMail] = useState('');
@@ -34,10 +34,11 @@ const Userinfo = () => {
       let { message, info } = await getInfo(username);
 
       if (message === "SUCCESS_GET") {
-        const { name, password, email } = info;
+        const { name, email } = info;
+        console.log("info =", info)
         setName(name);
         setAccount(username);
-        setPassword(password);
+        //setPassword(password);
         setMail(email);
       } else {
         console.error('getInfo failed: ' + message)
@@ -53,16 +54,20 @@ const Userinfo = () => {
 
   const handleUpdatePassword = async () => {
     if (isEditPassword) {
+      console.log("oldPassword =", oldPassword)
+      console.log("password =", password)
         if(oldPassword === password){
             const { message } = await updateInfo({ username, password: newPassword });
             if (message !== 'SUCCESS_UPDATE') console.error('update introduction failed: ' + message);
-            else setPassword(newPassword);
+            else {
+              setPassword(newPassword);
+              setIsEditPassword(!isEditPassword);
+            }
         }
         else{
-            alert("舊密碼不正確")
+            error("舊密碼不正確")
         }
     }
-    setIsEditPassword(!isEditPassword);
   }
 
   const handleEditMail = () => {

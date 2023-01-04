@@ -15,7 +15,7 @@ const LoginContainer = styled.div`
 	margin-top: 240px;
 `;
 
-const Login = ({ error, setLoggedIn, setUsername, setName, setIdentity }) => {
+const Login = ({ error, setLoggedIn, setUsername, setName, setIdentity, setPassword }) => {
   const navigete = useNavigate();
   const toHome = () => { navigete('/') };
   const toProfile = (username) => { navigete('/therapists/profile/' + username, { state: { loggedIn: true, username } }) };
@@ -26,6 +26,7 @@ const Login = ({ error, setLoggedIn, setUsername, setName, setIdentity }) => {
       setLoggedIn(true);
       setUsername(username);
       setName(name);
+      setPassword(values.password)
       setIdentity(identity)
       if (identity === 'client') {
         toHome();
