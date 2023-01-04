@@ -54,7 +54,7 @@ const Therapists = () => {
                     <DescriptionContainer>
                       <div>
                         {
-                          disorder_categories.map(c => (<Tag key={c} color="#FCD5CE" style={{ fontSize: 18, padding: '5px 10px', color: '#000000E0' }}>{c}</Tag>))
+                          disorder_categories.map(c => (<Tag key={c} color="#FFE5D9" style={{ fontSize: 18, padding: '5px 10px', color: '#000000E0' }}>{c}</Tag>))
                         }
                       </div>
                       <div style={{ marginTop: 12 }}><ProfileFilled style={{ marginRight: 12 }} />簡歷</div>
