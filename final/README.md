@@ -3,6 +3,7 @@
 ## I. 專題說明
 
 ### FB 貼文連結
+https://www.facebook.com/groups/NTURicWebProg/permalink/1828694300811815/
 
 ### Demo 影片連結
 
